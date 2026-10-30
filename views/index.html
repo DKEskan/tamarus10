@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eskan</title>
+  <link rel="stylesheet" href="../public/css/style.css" />
+  <link rel="stylesheet" href="../public/css/materialdesignicons.min.css" />
+  <link rel="stylesheet" href="../public/css/font-awesome.min.css"  />
+  <link rel="stylesheet" href="../public/bootstrap-5.3.3-dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../public/bootstrap-icons/font/bootstrap-icons.min.css" type="text/css" />
+</head>
+<body>	
+	<div id="container" class="turn">
+			<!-- <div class="row no-gutters">
+				<div class="col-sm-3 text-start">
+					<input type="text" id="myInput"  style="width:100%;" placeholder="Enter text">
+				</div>
+				<div class="col-sm-3 text-end">
+					<button style="width:100%;" onclick="navButton()">Nav</button>
+				</div>
+			</div> -->
+			<div id="initScreen" style="display:block;">
+				<div class="row m-0">
+					<div class="col-sm-3"></div>
+					<div class=" col-sm-2">
+						<img  alt="Responsive image" src="../public/img/eskan_white_tm_13.png" />
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div class="row mt-5 ml-1">
+					<div class="col-sm-3"></div>
+					<div class=" col-sm-2">
+						<div class="spinner-square" style="margin-left: 85px;">
+							<div class="square-1 square"></div>
+							<div class="square-2 square"></div>
+							<div class="square-3 square"></div>
+							<div class="square-4 square"></div>
+							<div class="square-5 square"></div>
+							<div class="square-6 square"></div>
+							<div class="square-7 square"></div>
+						</div>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+			</div>
+			<div id="m_s_error" style="display:none;" class="error-message">
+				<div id="m_s_error_type" class="error-message-alarm">
+					<div class="error-message-alarm" style="border: #fff 1px solid !important; padding: 10px;">
+						<span id="s_s_error_type_text" style="font-size:25px;">ALARM</span>
+						<br>
+						<span id="s_s_error" style="font-size:25px; display:flex; justify-content: center;">Antenna Connection Failure !</span>
+						<div id="active_alarm_list" style="display:none;"></div>
+						<div id="active_alarm_page" style="display:none;"></div>
+					</div>
+				</div>
+			</div>
+			<div id="pixelCheckId" style="display:none;" class="pixel-check"></div>
+			<div id="mainScreen" class="container-fluid keys" style="display:none;">
+				<div class="bottomBarPosition">
+				<div class="row no-gutters" style="height:40px;">
+					<div class="col-sm-2 p-0">
+						<div class="spinner-square" style="margin-top: 17px; margin-left:15px;">
+							<div id="spinnerId" class="circleAnim-1 circleAnim"></div>
+						</div>
+					</div>	
+					<div class="col-sm-4 p-0" style="text-align: left; margin-top: 7px;margin-left: 7px;">
+						<span id="opFillSelection" style="font-size: 24px;">Op.Fill 1</span>
+					</div>
+					<div id="chargingIndicatorMainScreenId" class="col-sm-1" style="margin-left:0.5rem;">
+						<img class="connected-image-main-screen" alt="Responsive image" src="../public/img/connected-white-64.png" />		
+					</div>	
+					<div class="col-sm-1" style="margin-left:0.2rem; position: relative;">
+						<img id="d_i_battery_charging_1" style="display: none" class="lightning-image-battery-main" alt="Responsive image" src="../public/img/lightning-white-100-outline.png" />	
+						<div id="d_i_battery_1" class="battery-eskan">
+							<span id="m_i_battery_1" class="battery-level" style="height:20%;"></span>
+						</div>
+					</div>	
+					<div class="col-sm-1" style="margin-left:0.5rem; position: relative;">
+						<img id="d_i_battery_charging_2" style="display: none" class="lightning-image-battery-main" alt="Responsive image" src="../public/img/lightning-white-100-outline.png" />	
+						<div id="d_i_battery_2" class="battery-eskan">
+							<span id="m_i_battery_2" class="battery-level" style="height:20%;"></span>
+						</div>
+					</div>	
+					<div class="col-sm-1" style="margin-left:0.5rem; position: relative;">
+						<img id="d_i_battery_charging_3" style="display: none" class="lightning-image-battery-main" alt="Responsive image" src="../public/img/lightning-white-100-outline.png" />	
+						<div id="d_i_battery_3" class="battery-eskan">
+							<span id="m_i_battery_3" class="battery-level" style="height:20%;"></span>
+						</div>
+					</div>	
+					<div class="col-sm-1 p-0 text-center" style="margin-left: 7px;">
+						<div class="battery-text">
+							<span id="m_span_btr" class="title-font" ></span>
+						</div>
+					</div>		
+				</div>
+				<div class="row no-gutters">
+					<div class="col-sm-6 ml-1">
+						<!--Band 1 Start-->
+						<div id="Band_1" class="title_box_main my-3">
+							<div class="title">Band 1</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span id="m_span_temp_1" class="title-font text-start text-nowrap">Temp: 24 &deg;C</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<i id="m_i_signal_1" class="iconsignalstrength">
+										<span class="bar-1"></span>
+										<span class="bar-2"></span>
+										<span class="bar-3"></span>
+										<span class="bar-4"></span>
+										<span class="bar-5"></span>
+										<span class="bar-6"></span>
+										<span class="bar-7"></span>	
+									</i>
+								</div>
+								</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span id="m_span_power_1" class="title-font text-start text-nowrap">Power: OFF</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<div class="p-1"><span id="m_span_pwr_1" class="title-font-20 px-2 bg-grey" style="margin-right: -0.1rem !important; border-radius: 5px;">PWR</span></div> 
+								</div>
+							</div>
+						</div>
+						<!--Band 1 End-->
+						<!--Band 3 Start-->
+						<div id="Band_3" class="title_box_main my-3">
+							<div class="title">Band 3</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span id="m_span_temp_3" class="title-font text-start text-nowrap">Temp: 24 &deg;C</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<i id="m_i_signal_3"  class="iconsignalstrength">
+										<span class="bar-1"></span>
+										<span class="bar-2"></span>
+										<span class="bar-3"></span>
+										<span class="bar-4"></span>
+										<span class="bar-5"></span>
+										<span class="bar-6"></span>
+										<span class="bar-7"></span>	
+									</i>
+								</div>
+								</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span id="m_span_power_3" class="title-font text-start text-nowrap">Power: OFF</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<div class="p-1"><span id="m_span_pwr_3" class="title-font-20 px-2 bg-blue" style="margin-right: -0.1rem !important; border-radius: 5px;">PWR</span></div> 
+								</div>
+							</div>
+						</div>
+						<!--Band 3 End-->
+						<!--Band 5 Start-->
+						<div id="Band_5" class="title_box_main my-3">
+							<div class="title">Band 5</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span id="m_span_temp_5" class="title-font text-start text-nowrap">Temp: 24 &deg;C</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<i id="m_i_signal_5"  class="iconsignalstrength">
+										<span class="bar-1"></span>
+										<span class="bar-2"></span>
+										<span class="bar-3"></span>
+										<span class="bar-4"></span>
+										<span class="bar-5"></span>
+										<span class="bar-6"></span>
+										<span class="bar-7"></span>	
+									</i>
+								</div>
+								</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span  id="m_span_power_5" class="title-font text-start text-nowrap">Power: OFF</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<div class="p-1"><span id="m_span_pwr_5" class="title-font-20 px-2 bg-grey" style="margin-right: -0.1rem !important; border-radius: 5px;">PWR</span></div> 
+								</div>
+							</div>
+						</div>
+						<!--Band 5 End-->  
+						<!--Band 7 Start-->
+						<div id="Band_7" class="title_box_main my-3">
+							<div class="title">Band 7</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span id="m_span_temp_7" class="title-font text-start text-nowrap">Temp: 24 &deg;C</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<i id="m_i_signal_7"  class="iconsignalstrength">
+										<span class="bar-1"></span>
+										<span class="bar-2"></span>
+										<span class="bar-3"></span>
+										<span class="bar-4"></span>
+										<span class="bar-5"></span>
+										<span class="bar-6"></span>
+										<span class="bar-7"></span>	
+									</i>
+								</div>
+								</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span  id="m_span_power_7" class="title-font text-start text-nowrap">Power: OFF</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<div class="p-1"><span id="m_span_pwr_7" class="title-font-20 px-2 bg-grey" style="margin-right: -0.1rem !important; border-radius: 5px;">PWR</span></div> 
+								</div>
+							</div>
+						</div>
+						<!--Band 7 End-->        
+					
+					</div>
+					<div class="col-sm-6 ml-1 text-start">
+						
+						<!--Band 2 Start-->
+						<div id="Band_2" class="title_box_main my-3">
+							<div class="title">Band 2</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span id="m_span_temp_2" class="title-font text-start text-nowrap">Temp: 24 &deg;C</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<i id="m_i_signal_2"  class="iconsignalstrength">
+										<span class="bar-1"></span>
+										<span class="bar-2"></span>
+										<span class="bar-3"></span>
+										<span class="bar-4"></span>
+										<span class="bar-5"></span>
+										<span class="bar-6"></span>
+										<span class="bar-7"></span>	
+									</i>
+								</div>
+								</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span id="m_span_power_2" class="title-font text-start text-nowrap">Power: OFF</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<div class="p-1"><span id="m_span_pwr_2" class="title-font-20 px-2 bg-grey" style="margin-right: -0.1rem !important; border-radius: 5px;">PWR</span></div> 
+								</div>
+							</div>
+						</div>
+						<!--Band 2 End-->
+						<!--Band 4 Start-->
+						<div id="Band_4" class="title_box_main my-3">
+							<div class="title">Band 4</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span id="m_span_temp_4" class="title-font text-start text-nowrap">Temp: 24 &deg;C</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<i id="m_i_signal_4"  class="iconsignalstrength">
+										<span class="bar-1"></span>
+										<span class="bar-2"></span>
+										<span class="bar-3"></span>
+										<span class="bar-4"></span>
+										<span class="bar-5"></span>
+										<span class="bar-6"></span>
+										<span class="bar-7"></span>	
+									</i>
+								</div>
+								</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span  id="m_span_power_4" class="title-font text-start text-nowrap">Power: OFF</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<div class="p-1"><span id="m_span_pwr_4" class="title-font-20 px-2 bg-grey" style="margin-right: -0.1rem !important; border-radius: 5px;">PWR</span></div> 
+								</div>
+							</div>
+						</div>
+						<!--Band 4 End-->    
+						<!--Band 6 Start-->
+						<div id="Band_6" class="title_box_main my-3">
+							<div class="title">Band 6</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span id="m_span_temp_6" class="title-font text-start text-nowrap">Temp: 24 &deg;C</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<i id="m_i_signal_6"  class="iconsignalstrength">
+										<span class="bar-1"></span>
+										<span class="bar-2"></span>
+										<span class="bar-3"></span>
+										<span class="bar-4"></span>
+										<span class="bar-5"></span>
+										<span class="bar-6"></span>
+										<span class="bar-7"></span>	
+									</i>
+								</div>
+								</div>
+								<div class="row p-0">
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-4 p-0 text-start" style="align-content: center;">
+									<span  id="m_span_power_6" class="title-font text-start text-nowrap">Power: OFF</span> 
+								</div>
+								<div class="col-sm-1 p-0 text-start"></div>
+								<div class="col-sm-5 p-0 text-end">
+									<div class="p-1"><span id="m_span_pwr_6" class="title-font-20 px-2 bg-grey" style="margin-right: -0.1rem !important; border-radius: 5px;">PWR</span></div> 
+								</div>
+							</div>
+						</div>
+						<!--Band 6 End-->  
+					</div>
+				</div>
+			</div>
+			<div class="row no-gutters" style="justify-content:center">
+				<div class="col-sm-3 p-0 text-start text-nowrap mx-2">
+					<button type="button" class="btn btn-secondary btn-lg" id="m_btn_1" style="width: 100%;">Op.Fill</button>
+				</div>
+				<div class="col-sm-3 p-0 text-start text-nowrap mx-2">
+					<button type="button" class="btn btn-secondary btn-lg" id="m_btn_2" style="width: 100%;">Set Param.</button>
+				</div>
+				<div class="col-sm-3 p-0 text-start text-nowrap mx-2">
+					<button type="button" class="btn btn-secondary btn-lg" id="m_btn_3" style="width: 100%;">Information</button>
+				</div>
+			</div>
+			</div>
+			<div id="configScreen" class="container-fluid" style="display:none;">
+				<div class="bottomBarPosition">
+					<div class="row no-gutters">
+						<div class="col-sm-7 text-start mt-2"> <span id="responseData"></span></div>
+						<div class="col-sm-4 mt-2" style="text-align: right; font-size: 24px;" >
+							<span id="configOpFillCurrent"></span>
+						</div>
+						<div class="col-sm-10 text-start"> <span id="frequencyData"></span></div>
+					</div>
+				<!-- 50 - 240 MHz Begin -->
+				<div class="row no-gutters mt-2">
+					<div class="col text-start p-0">
+						<div id="c_btn_1" class="title_box config-box p-0 mt-1 mx-2 cfg">
+						<div id="c_title_1" class="title title-white"><span id="s_title_1"></span>
+							<div class="row p-0 progress-box">
+							<div class="progress" id="m_progress_1">
+								<span id="m_span_progress_1_1" class="progress-bar-green"></span>
+								<span id="m_span_progress_1_2" class="progress-bar-green"></span>
+								<span id="m_span_progress_1_3" class="progress-bar-green"></span>
+								<span id="m_span_progress_1_4" class="progress-bar-green"></span>
+								<span id="m_span_progress_1_5" class="progress-bar-green"></span>
+								<span id="m_span_progress_1_6" class="progress-bar-green"></span>
+								<span id="m_span_progress_1_0" class="progress-bar"></span>
+							</div>
+							</div>
+						</div>
+						</div>
+					</div>
+					<div class="col-sm-1 p-0 text-start mt-1">
+					<i id="m_i_icon_signal_1" class="iconsignalstrengthConfig signal-2">
+						<span class="bar-1 signal-yellow"></span>
+						<span class="bar-2 signal-yellow"></span>
+						<span class="bar-3 signal-yellow"></span>
+						<span class="bar-4 signal-yellow"></span>
+						<span class="bar-5 signal-yellow"></span>
+						<span class="bar-6 signal-yellow"></span>
+						<span class="bar-7 signal-yellow"></span>		
+					</i>
+					<div id="c_s_btn_1" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+					<div class="mt-1">
+						<span id="s_i_pwr_1" class="title-font-18 bg-green px-1" style="border-radius: 2px;">PWR</span>
+						<div id="c_p_btn_1" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+					</div>
+					</div>
+				</div>
+				<!-- 50 - 240 MHz End -->
+
+				<!-- 240 - 480 MHz Begin -->
+				<div class="row no-gutters mt-2">
+					<div class="col text-start p-0">
+						<div id="c_btn_2" class="title_box config-box p-0 mt-1 mx-2 cfg">
+							<div id="c_title_2" class="title title-white"><span id="s_title_2"></span>
+								<div class="row p-0 progress-box">
+									<div class="progress" id="m_progress_2">
+										<span id="m_span_progress_2_1" class="progress-bar-green"></span>
+										<span id="m_span_progress_2_2" class="progress-bar-green"></span>
+										<span id="m_span_progress_2_3" class="progress-bar-green"></span>
+										<span id="m_span_progress_2_4" class="progress-bar-green"></span>
+										<span id="m_span_progress_2_5" class="progress-bar-green"></span>
+										<span id="m_span_progress_2_6" class="progress-bar-green"></span>
+										<span id="m_span_progress_2_0" class="progress-bar"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-1 p-0 text-start mt-1">
+					<i id="m_i_icon_signal_2" class="iconsignalstrengthConfig signal-7">
+						<span class="bar-1 signal-yellow"></span>
+						<span class="bar-2 signal-yellow"></span>
+						<span class="bar-3 signal-yellow"></span>
+						<span class="bar-4 signal-yellow"></span>
+						<span class="bar-5 signal-yellow"></span>
+						<span class="bar-6 signal-yellow"></span>
+						<span class="bar-7 signal-yellow"></span>		
+					</i>
+					<div id="c_s_btn_2" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+					<div class="mt-1">
+						<span id="s_i_pwr_2" class="title-font-18 bg-green px-1" style="border-radius: 2px;">PWR</span>
+						<div id="c_p_btn_2" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+					</div>
+					</div>
+				</div>
+				<!-- 240 - 480 MHz End -->
+
+				<!-- 880 - 960 MHz Begin -->
+				<div class="row no-gutters mt-2">
+					<div class="col text-start p-0">
+						<div id="c_btn_3" class="title_box config-box p-0 mt-1 mx-2 cfg">
+						<div id="c_title_3" class="title title-white"><span id="s_title_3"></span>
+							<div class="row p-0 progress-box">
+							<div class="progress " id="m_progress_3">
+								<span id="m_span_progress_3_1" class="progress-bar-green"></span>
+								<span id="m_span_progress_3_2" class="progress-bar-green"></span>
+								<span id="m_span_progress_3_3" class="progress-bar-green"></span>
+								<span id="m_span_progress_3_4" class="progress-bar-green"></span>
+								<span id="m_span_progress_3_5" class="progress-bar-green"></span>
+								<span id="m_span_progress_3_6" class="progress-bar-green"></span>
+								<span id="m_span_progress_3_0" class="progress-bar"></span>
+							</div>
+							</div>
+						</div>
+						</div>
+					</div>
+					<div class="col-sm-1 p-0 text-start mt-1">
+					<i id="m_i_icon_signal_3" class="iconsignalstrengthConfig signal-7">
+						<span class="bar-1 signal-yellow"></span>
+						<span class="bar-2 signal-yellow"></span>
+						<span class="bar-3 signal-yellow"></span>
+						<span class="bar-4 signal-yellow"></span>
+						<span class="bar-5 signal-yellow"></span>
+						<span class="bar-6 signal-yellow"></span>
+						<span class="bar-7 signal-yellow"></span>	
+					</i>
+					<div id="c_s_btn_3" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+					<div class="mt-1">
+						<span id="s_i_pwr_3" class="title-font-18 bg-green px-1" style="border-radius: 2px;">PWR</span>
+						<div id="c_p_btn_3" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+					</div>
+					</div>
+				</div>
+				<!-- 880 - 960 MHz End --> 
+
+				<!-- 1200 - 1660 MHz Begin -->
+				<div class="row no-gutters mt-2">
+					<div class="col text-start p-0">
+						<div id="c_btn_4" class="title_box config-box p-0 mt-1 mx-2 cfg">
+						<div id="c_title_4" class="title title-white"><span id="s_title_4"></span>
+							<div class="row p-0 progress-box">
+							<div class="progress" id="m_progress_4">
+								<span id="m_span_progress_4_1" class="progress-bar-green"></span>
+								<span id="m_span_progress_4_2" class="progress-bar-green"></span>
+								<span id="m_span_progress_4_3" class="progress-bar-green"></span>
+								<span id="m_span_progress_4_4" class="progress-bar-green"></span>
+								<span id="m_span_progress_4_5" class="progress-bar-green"></span>
+								<span id="m_span_progress_4_6" class="progress-bar-green"></span>
+								<span id="m_span_progress_4_0" class="progress-bar"></span>
+							</div>
+							</div>
+						</div>
+						</div>
+					</div>
+					<div class="col-sm-1 p-0 text-start mt-1">
+					<i id="m_i_icon_signal_4" class="iconsignalstrengthConfig signal-7">
+						<span class="bar-1 signal-yellow"></span>
+						<span class="bar-2 signal-yellow"></span>
+						<span class="bar-3 signal-yellow"></span>
+						<span class="bar-4 signal-yellow"></span>
+						<span class="bar-5 signal-yellow"></span>
+						<span class="bar-6 signal-yellow"></span>
+						<span class="bar-7 signal-yellow"></span>	
+					</i>
+					<div id="c_s_btn_4" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+					<div class="mt-1">
+					<span id="s_i_pwr_4" class="title-font-18 bg-green px-1" style="border-radius: 2px;">PWR</span>
+					<div id="c_p_btn_4" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+					</div>
+					</div>
+				</div>
+				<!-- 1200 - 1660 MHz End --> 
+
+				<!-- 1800 - 1880 MHz Begin -->
+				<div class="row no-gutters mt-2">
+					<div class="col text-start p-0">
+						<div id="c_btn_5" class="title_box config-box p-0 mt-1 mx-2 cfg">
+							<div id="c_title_5" class="title title-white"><span id="s_title_5"></span>
+								<div class="row p-0 progress-box">
+									<div class="progress" id="m_progress_5">
+										<span id="m_span_progress_5_1" class="progress-bar-green"></span>
+										<span id="m_span_progress_5_2" class="progress-bar-green"></span>
+										<span id="m_span_progress_5_3" class="progress-bar-green"></span>
+										<span id="m_span_progress_5_4" class="progress-bar-green"></span>
+										<span id="m_span_progress_5_5" class="progress-bar-green"></span>
+										<span id="m_span_progress_5_6" class="progress-bar-green"></span>
+										<span id="m_span_progress_5_0" class="progress-bar"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-1 p-0 text-start mt-1">
+						<i id="m_i_icon_signal_5" class="iconsignalstrengthConfig signal-7">
+							<span class="bar-1 signal-yellow"></span>
+							<span class="bar-2 signal-yellow"></span>
+							<span class="bar-3 signal-yellow"></span>
+							<span class="bar-4 signal-yellow"></span>
+							<span class="bar-5 signal-yellow"></span>
+							<span class="bar-6 signal-yellow"></span>
+							<span class="bar-7 signal-yellow"></span>	
+						</i>
+						<div id="c_s_btn_5" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+						<div class="mt-1">
+							<span id="s_i_pwr_5" class="title-font-18 bg-green px-1" style="border-radius: 2px;">PWR</span>
+							<div id="c_p_btn_5" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+						</div>
+					</div>
+				</div>
+				<!-- 1800 - 1880 MHz End --> 
+				<!-- 2110 - 2180 MHz Begin -->
+				<div class="row no-gutters mt-2">
+					<div class="col text-start p-0">
+						<div id="c_btn_6" class="title_box config-box p-0 mt-1 mx-2 cfg">
+							<div id="c_title_6" class="title title-white"><span id="s_title_6"></span>
+								<div class="row p-0 progress-box">
+									<div class="progress" id="m_progress_6">
+										<span id="m_span_progress_6_1" class="progress-bar-green"></span>
+										<span id="m_span_progress_6_2" class="progress-bar-green"></span>
+										<span id="m_span_progress_6_3" class="progress-bar-green"></span>
+										<span id="m_span_progress_6_4" class="progress-bar-green"></span>
+										<span id="m_span_progress_6_5" class="progress-bar-green"></span>
+										<span id="m_span_progress_6_6" class="progress-bar-green"></span>
+										<span id="m_span_progress_6_0" class="progress-bar"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-1 p-0 text-start mt-1">
+						<i id="m_i_icon_signal_6" class="iconsignalstrengthConfig signal-7">
+							<span class="bar-1 signal-yellow"></span>
+							<span class="bar-2 signal-yellow"></span>
+							<span class="bar-3 signal-yellow"></span>
+							<span class="bar-4 signal-yellow"></span>
+							<span class="bar-5 signal-yellow"></span>
+							<span class="bar-6 signal-yellow"></span>
+							<span class="bar-7 signal-yellow"></span>	
+						</i>
+						<div id="c_s_btn_6" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+						<div class="mt-1">
+							<span id="s_i_pwr_6" class="title-font-18 bg-green px-1" style="border-radius: 2px;">PWR</span>
+							<div id="c_p_btn_6" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+						</div>
+					</div>
+				</div>
+				<!-- 2110 - 2180 MHz End --> 	
+				<!-- 2400 - 2690 MHz Begin -->
+				<div class="row no-gutters mt-2">
+					<div class="col text-start p-0">
+						<div id="c_btn_7" class="title_box config-box p-0 mt-1 mx-2 cfg">
+							<div id="c_title_7" class="title title-white"><span id="s_title_7"></span>
+								<div class="row p-0 progress-box">
+									<div class="progress" id="m_progress_7">
+										<span id="m_span_progress_7_1" class="progress-bar-green"></span>
+										<span id="m_span_progress_7_2" class="progress-bar-green"></span>
+										<span id="m_span_progress_7_3" class="progress-bar-green"></span>
+										<span id="m_span_progress_7_4" class="progress-bar-green"></span>
+										<span id="m_span_progress_7_5" class="progress-bar-green"></span>
+										<span id="m_span_progress_7_6" class="progress-bar-green"></span>
+										<span id="m_span_progress_7_0" class="progress-bar"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-1 p-0 text-start mt-1">
+						<i id="m_i_icon_signal_7" class="iconsignalstrengthConfig signal-7">
+							<span class="bar-1 signal-yellow"></span>
+							<span class="bar-2 signal-yellow"></span>
+							<span class="bar-3 signal-yellow"></span>
+							<span class="bar-4 signal-yellow"></span>
+							<span class="bar-5 signal-yellow"></span>
+							<span class="bar-6 signal-yellow"></span>
+							<span class="bar-7 signal-yellow"></span>	
+						</i>
+						<div id="c_s_btn_7" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+						<div class="mt-1">
+							<span id="s_i_pwr_7" class="title-font-18 bg-green px-1" style="border-radius: 2px;">PWR</span>
+							<div id="c_p_btn_7" class="hz-line cfg mt-1 border-black" style="display:block;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 2400 - 2690 MHz End --> 	
+			<div class="row no-gutters" style="height: 100%; justify-content:center;">
+				<div class="col-sm-3 p-0 text-start text-nowrap mx-2">
+				<button id="c_btn_8" class="btn btn-secondary btn-lg" style="width: 100%;">Save</button>
+				</div>
+				<div class="col-sm-3 p-0 text-start text-nowrap mx-2">
+				<button id="c_btn_9" class="btn btn-secondary btn-lg" style="width: 100%;">Password</button>
+				</div>
+				<div class="col-sm-3 p-0 text-start text-nowrap mx-2">
+				<button id="c_btn_11" class="btn btn-secondary btn-lg" style="width: 100%;">Back</button>
+				</div>
+			</div>      
+			</div>
+			<div id="covertScreen" style="display:none;">
+			</div>
+			<div id="batteryScreen" style="display:none;">
+				<div id="batteryScreenContainer" class="container text-center">
+					<div class="row no-gutters mt-4">
+						<div class="col-sm-12 p-0">
+						</div>
+					</div>
+					<div class="row no-gutters mt-5" style='min-height:30px;'>
+						<div class="col-sm-12 p-0">
+							<span style="vertical-align: text-bottom !important; margin-top:10%; font-size: 36px;">Charging</span>
+						</div>
+					</div>
+					<div class="row no-gutters">
+						<div class="col-sm-4">
+							<div class="customDiv">
+								<!-- <i id="b_i_battery_1" class="battery-icon-size-normal rotate"></i> -->
+								<div id="b_i_battery_1" class="battery rotate">
+									<div id="b_i_batCharge_1" class="black-percent" style="--charge:1;"></div>
+								</div>
+								<img class="lightning-image" alt="Responsive image" src="../public/img/lightning-white-100-outline.png" />
+								
+							</div>
+							<span id="b_span_btr_1" class="battery-title-font"></span>
+						</div>
+						<div class="col-sm-4">
+							
+							<div class="customDiv">
+								<!-- <i id="b_i_battery_2" class="battery-icon-size-normal rotate"></i> -->
+								<div id="b_i_battery_2" class="battery rotate">
+									<div id="b_i_batCharge_2" class="black-percent"></div>
+								</div>
+								<img class="lightning-image" alt="Responsive image" src="../public/img/lightning-white-100-outline.png" />
+							</div>
+							<span id="b_span_btr_2" class="battery-title-font"></span>
+						</div>
+						<div class="col-sm-4">
+							<div class="customDiv">
+								<!-- <i id="b_i_battery_3" class="battery-icon-size-normal rotate"></i> -->
+								<div id="b_i_battery_3" class="battery rotate">
+									<div id="b_i_batCharge_3" class="black-percent"></div>
+								</div>
+								<img class="lightning-image" alt="Responsive image" src="../public/img/lightning-white-100-outline.png" />
+							</div>
+							<span id="b_span_btr_3" class="battery-title-font"></span>
+						</div>  
+					</div>
+				</div>
+			</div>
+			<div id="m_s_opFill" style="display:none;" class="operationFill-message">
+				<div class="container mt-1">
+					<div class="mt-2">
+						<span style="font-size: 24px;">Select Op.Fill</span>
+					</div>
+					<div class="text-start" id="m_div_1" style="text-align: center !important;">
+						<input type="hidden" id="hdn_m_div_1" name="hdn_m_div_1" value="0">
+						<button type="button" class="btn btn-secondary btn-lg mt-2" id="m_btn_op_1" style="width: 95%;">1</button><br/>
+						<button type="button" class="btn btn-secondary btn-lg mt-3" id="m_btn_op_2" style="width: 95%;">2</button><br/>
+						<button type="button" class="btn btn-secondary btn-lg mt-3" id="m_btn_op_3" style="width: 95%;">3</button><br/>
+						<button type="button" class="btn btn-secondary btn-lg mt-3" id="m_btn_op_4" style="width: 95%;">4</button><br/>
+						<button type="button" class="btn btn-secondary btn-lg mt-3" id="m_btn_op_5" style="width: 95%;">5</button><br/>
+						<button type="button" class="btn btn-secondary btn-lg mt-3" id="m_btn_op_6" style="width: 95%;">6</button><br/>
+						<button type="button" class="btn btn-secondary btn-lg my-3" id="m_btn_op_7" style="width: 95%;">7</button><br/>
+					</div>  
+				</div>
+			</div>
+			<div id="m_s_deviceInfo" style="display:none;" class="info-message p-3">
+				<div id="deviceInfo" style="text-align:left;">
+					<div class="mb-2" style="text-align: center;"><img  alt="Responsive image" src="../public/img/eskan_white_tm_13.png" /></div>
+					<div class="mb-2 deviceInfo-title">Device Information</div>
+					<div class="deviceInfo-body">Product: Tamarus10</div>
+					<div class="deviceInfo-body" id="barcodeId">Barcode:</div>
+					<div class="deviceInfo-body" id="versionId">Version:</div>
+					<div class="deviceInfo-body" id="snId">Serial Number:</div>
+					<div class="deviceInfo-body" id="softwareId">Software:</div>
+				</div>
+			</div>
+			<div id="m_s_password" style="display:none;" class="password-message p-3">
+				<div id="enterPassword" style="display:block;">
+					<span id="m_t_password_span"></span><br/>
+					<div class="mt-3">
+						<input id="m_t_password_1" class="text-focus" type="number" min="0" max="9" size="1" value="0"/>
+						<input id="m_t_password_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+						<input id="m_t_password_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+						<input id="m_t_password_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+						<input id="m_t_password_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+						<input id="m_t_password_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+					</div>
+					<div id="passwordConfirmSection" class="row no-gutters justify-content-md-center mt-3" style="display:none;">
+						<div class="col col-lg-6 text-nowrap">
+							<button id="passwordConfirmInput" type="button" class="btn btn-secondary btn-lg mt-1" style="width: 100%;">Confirm</button><br/>
+						</div>
+						<div class="col col-lg-6 text-nowrap">
+							<button id="passwordCancelInput" type="button" class="btn btn-secondary btn-lg mt-1" style="width: 100%;">Cancel</button><br/><br/>
+						</div>
+					</div>
+				</div>
+				<div id="passwordAccepted" style="display:none;">
+					<p>Password Accepted</p>
+				</div>
+				<div id="passwordIncorrect" style="display:none;">
+					<p>Password Incorrect</p>
+				</div>
+			</div>
+			<div id="m_s_covert" style="display:none;" class="covert-message p-3">
+				<span id="m_t_covert_span"></span><br/>
+			</div>
+			<div id="m_s_confirm" style="display:none;" class='dialog-ovelay'>
+				<div class='dialog'>
+					<!-- <header>
+						<h3> Confirm Button </h3></i>
+					</header> -->
+					<div class='dialog-msg'>
+						<span style="font-size: 25px; margin-bottom: 0px;">Destroy Configuration?</span>
+					</div>
+					<footer>
+						<!--<div class='controls'>-->
+						<div class="row no-gutters justify-content-md-center my-3">
+							<div class="col col-sm-5 text-nowrap" style="margin-right:-8px;">
+								<button id="m_c_confirm_1" class='btn btn-secondary btn-lg' style="width:100%">Destroy</button> 
+							</div>
+							<div class="col col-sm-5 text-nowrap">
+								<button id="m_c_confirm_2" class='btn btn-secondary btn-lg' style="width:100%">Cancel</button> 
+							</div>
+						</div>
+					</footer>
+				</div>
+			</div>
+
+
+			<div id="factoryScreen" style="display:none;">
+				<div class="row m-0">
+					<div class="col-sm-3"></div>
+					<div class=" col-sm-2">
+						<img alt="FactoryResetImage" src="../public/img/eskan_FactoryDataReset.png" />
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+			</div>
+			<div id="m_s_frequency" style="display:none;" class="frequency-message">
+				<div class="container mt-1">
+					<div class="row no-gutters justify-content-md-center mb-1 mt-0" style="height: 100%;">
+							<span id="m_s_frequency_title" class="frequencyTitleHeading text-center">Band Sweep Range: 20-250MHz</span>
+					</div>
+					<div class="table-responsive mx-2" style="border:#fff 1px solid">
+						<table id="m_t_frequency_table" class="table table-bordered frequency-graycolor mx-2 mb-2" style="border-collapse: separate; width:95%">
+							<thead>
+							<tr>
+								<th class="frequencyStartStopHeading">Start (MHz)</th>
+								<th class="frequencyStartStopHeading">Stop (MHz)</th>
+								<th class="frequencyStartStopHeading" style="visibility: hidden;">Remove</th>
+							</tr>
+							</thead>
+							<tbody>
+							  <tr id="m_t_frequency_row_1" style="display:table-row">
+								<td id="m_t_frequency_nav_1_1" class="frequency-row border-yellow">		
+									<div>
+										<input id="m_t_frequency_1_1_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_1_1_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_1_1_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_1_1_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_1_1_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_1_1_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_1_1_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>																				
+									</div>
+								</td>
+								<td id="m_t_frequency_nav_1_2" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_1_2_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_1_2_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_1_2_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_1_2_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_1_2_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_1_2_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_1_2_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										
+									</div>
+								</td>
+								<td class="frequency-row">
+									<div style="display:flex; justify-content: center;"><button id="m_t_frequency_nav_1_3"  type="button" class="btn btn-secondary btn-lg" style="width:60%"><hr class="hrFreqTable"></button></div>	
+								</td>
+							  </tr>
+							  <tr id="m_t_frequency_row_2" style="display:table-row">
+								<td id="m_t_frequency_nav_2_1" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_2_1_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_2_1_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_2_1_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_2_1_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_2_1_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_2_1_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_2_1_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+									</div>
+								</td>
+								<td id="m_t_frequency_nav_2_2" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_2_2_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_2_2_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_2_2_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+										<input id="m_t_frequency_2_2_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>																				
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_2_2_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_2_2_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+										<input id="m_t_frequency_2_2_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+									</div>
+								</td>
+								<td class="frequency-row">
+									<div style="display:flex; justify-content: center;"><button id="m_t_frequency_nav_2_3"  type="button" class="btn btn-secondary btn-lg" style="width:60%"><hr class="hrFreqTable"></button></div>	
+								</td>
+							  </tr>
+							  <tr id="m_t_frequency_row_3" style="display:table-row">
+								<td id="m_t_frequency_nav_3_1" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_3_1_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_3_1_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_3_1_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_3_1_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_3_1_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_3_1_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_3_1_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+									</div>
+								</td>
+								<td id="m_t_frequency_nav_3_2" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_3_2_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_3_2_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_3_2_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_3_2_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_3_2_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_3_2_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_3_2_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>												
+									</div>
+								</td>
+								<td class="frequency-row">
+									<div style="display:flex; justify-content: center;"><button id="m_t_frequency_nav_3_3"  type="button" class="btn btn-secondary btn-lg" style="width:60%"><hr class="hrFreqTable"></button></div>	
+								</td>
+							  </tr>
+							  <tr id="m_t_frequency_row_4" style="display:table-row">
+								<td id="m_t_frequency_nav_4_1" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_4_1_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_4_1_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_4_1_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_4_1_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_4_1_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_4_1_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_4_1_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+									</div>
+								</td>
+								<td id="m_t_frequency_nav_4_2" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_4_2_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_4_2_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_4_2_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+										<input id="m_t_frequency_4_2_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_4_2_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_4_2_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+										<input id="m_t_frequency_4_2_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>	
+									</div>
+								</td>
+								<td class="frequency-row">
+									<div style="display:flex; justify-content: center;"><button id="m_t_frequency_nav_4_3"  type="button" class="btn btn-secondary btn-lg" style="width:60%"><hr class="hrFreqTable"></button></div>	
+								</td>
+							  </tr>
+							  <tr id="m_t_frequency_row_5" style="display:table-row">
+								<td id="m_t_frequency_nav_5_1" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_5_1_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_5_1_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_5_1_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_5_1_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_5_1_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_5_1_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_5_1_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+									</div>
+								</td>
+								<td id="m_t_frequency_nav_5_2" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_5_2_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_5_2_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_5_2_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>	
+										<input id="m_t_frequency_5_2_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>											
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_5_2_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_5_2_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+										<input id="m_t_frequency_5_2_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>	
+									</div>
+								</td>
+								<td class="frequency-row">
+									<div style="display:flex; justify-content: center;"><button id="m_t_frequency_nav_5_3"  type="button" class="btn btn-secondary btn-lg" style="width:60%"><hr class="hrFreqTable"></button></div>	
+								</td>
+							  </tr>
+							  <tr id="m_t_frequency_row_6" style="display:table-row">
+								<td id="m_t_frequency_nav_6_1" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_6_1_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_6_1_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_6_1_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_6_1_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_6_1_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_6_1_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_6_1_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+									</div>
+								</td>
+								<td id="m_t_frequency_nav_6_2" class="frequency-row border-white">		
+									<div>
+										<input id="m_t_frequency_6_2_1" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_6_2_2" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_6_2_3" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_6_2_4" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input class="frequencyNumber"  value="." readonly/>
+										<input id="m_t_frequency_6_2_5" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_6_2_6" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>
+										<input id="m_t_frequency_6_2_7" class="text-nonfocus" type="number" min="0" max="9" size="1" value="0"/>										
+									</div>
+								</td>
+								<td class="frequency-row">
+									<div style="display:flex; justify-content: center;"><button id="m_t_frequency_nav_6_3"  type="button" class="btn btn-secondary btn-lg" style="width:60%"><hr class="hrFreqTable"></button></div>	
+								</td>
+								</tr>
+								<tr>
+									<td id="m_t_frequency_row_7" colspan="3" class="frequency-row">
+										<div class="mt-0" style="display:inline-block; width: 60%;">
+											<button id="m_t_frequency_nav_7_1"  type="button" class="btn btn-secondary btn-lg">Add Row</button>
+										</div>
+									</td>	
+								
+									<!-- <td class="frequency-row">
+										<div class="mt-0"><button id="m_t_frequency_8_0"  type="button" class="btn btn-secondary btn-lg">Delete</button></div>
+									</td>	 -->
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="container text-center my-2">
+						<div class="row no-gutters justify-content-md-center" style="height: 100%;">
+							<div class="col col-lg-4 text-nowrap">
+								<button id="m_t_frequency_nav_8_1"  type="button" class="btn btn-secondary btn-lg" style="width:100%">Apply</button>
+							</div>
+							<div class="col col-lg-4 text-nowrap">
+								<button id="m_t_frequency_nav_8_2" type="button" class="btn btn-secondary btn-lg" style="width:100%">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div id="m_t_frequency_span" class="frequency-box p-0 mt-1 mx-2 cfg">
+					<div class="title">
+					</div>
+					</div> -->
+			</div>
+			<div id="arrowkey" class="arrow-pad">
+				<button class="up" onclick="onClicknavButton('8')">↑</button>
+				<button class="left" onclick="onClicknavButton('4')">←</button>
+				<button class="ok" onclick="onClicknavButton('5')">OK</button>
+				<button class="right" onclick="onClicknavButton('6')">→</button>
+				<button class="down" onclick="onClicknavButton('2')">↓</button>
+				<button class="covert" onclick="onClicknavButton('C')">C</button>
+				<button class="destroy" onclick="onClicknavButton('D')">D</button>
+				<button class="batterydown" onclick="onClicknavButton('B')">B</button>
+			</div>
+			<input type="hidden" id="hdn_covertScreen" name="hdn_covertScreen" value="0">
+			<input type="hidden" id="hdn_batteryScreen" name="hdn_batteryScreen" value="0">
+			<input type="hidden" id="hdn_currentScreen" name="hdn_currentScreen" value="0">
+			<input type="hidden" id="hdn_currentButton" name="hdn_currentButton" value="0">
+			<input type="hidden" id="hdn_currentButtonHighlighted" name="hdn_currentButtonHighlighted" value="0">
+			<input type="hidden" id="hdn_currentConfigButton" name="hdn_currentConfigButton" value="0">
+			<input type="hidden" id="hdn_currentConfigMenuNavButton" name="hdn_currentConfigMenuNavButton" value="0">
+			<input type="hidden" id="hdn_currentConfigButtonHighlighted" name="hdn_currentConfigButtonHighlighted" value="0">
+			<input type="hidden" id="hdn_currentConfigMenu" name="hdn_currentConfigMenu" value="0">
+			<input type="hidden" id="hdn_currentFrequencyRange" name="hdn_currentFrequencyRange" value="0">
+			<input type="hidden" id="hdn_currentFrequencyRangePos" name="hdn_currentFrequencyRangePos" value="0">
+			<input type="hidden" id="hdn_currentFrequencyRangeSteps" name="hdn_currentFrequencyRangeSteps" value="0">
+			<input type="hidden" id="hdn_m_progress_1" name="hdn_m_progress_1" value="0">
+			<input type="hidden" id="hdn_m_progress_2" name="hdn_m_progress_2" value="0">
+			<input type="hidden" id="hdn_m_progress_3" name="hdn_m_progress_3" value="0">
+			<input type="hidden" id="hdn_m_progress_4" name="hdn_m_progress_4" value="0">
+			<input type="hidden" id="hdn_m_progress_5" name="hdn_m_progress_5" value="0">
+			<input type="hidden" id="hdn_m_progress_6" name="hdn_m_progress_6" value="0">
+			<input type="hidden" id="hdn_m_progress_7" name="hdn_m_progress_7" value="0">
+			<input type="hidden" id="hdn_password" name="hdn_password" value="0">
+			<input type="hidden" id="hdn_password_menu" name="hdn_password_menu" value="0">
+			<input type="hidden" id="hdn_password_pos" name="hdn_password_pos" value="1">
+			<input type="hidden" id="hdn_set_new_password" name="hdn_set_new_password" value="0">
+			<input type="hidden" id="hdn_confirm" name="hdn_confirm" value="0">
+			<input type="hidden" id="hdn_confirm_menu" name="hdn_confirm_menu" value="0">
+			<input type="hidden" id="hdn_confirm_pos" name="hdn_confirm_pos" value="1">
+			<input type="hidden" id="hdn_tx_unit" name="hdn_tx_unit" value="0">
+			<input type="hidden" id="hdn_covert_menu" name="hdn_covert_menu" value="0">
+			<input type="hidden" id="hdn_frequency_menu" name="hdn_frequency_menu" value="0">
+			<input type="hidden" id="hdn_frequency_pos" name="hdn_frequency_pos" value="1">
+			<input type="hidden" id="hdn_frequency_row_pos" name="hdn_frequency_row_pos" value="1">
+			<input type="hidden" id="hdn_frequency_col_pos" name="hdn_frequency_col_pos" value="1">
+			<input type="hidden" id="hdn_default_config" name="hdn_default_config">
+			<input type="hidden" id="hdn_opFill_menu" name="hdn_opFill_menu" value="0">
+			<input type="hidden" id="hdn_opFill_pos" name="hdn_opFill_pos" value="1">	
+			<input type="hidden" id="hdn_device_info_menu" name="hdn_device_info_menu" value="0">				
+	</div>	
+  <script src="../public/js/jquery-3.7.1.min.js"></script>
+  <script src="../public/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../public/js/scripts.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+[Unit]
+Description=Tamarus10 - auto run on load.
+After=systemd-networkd.service
+
+[Service]
+Restart=on-failure
+User=root
+Type=forking
+ExecStart=/tamarus10/boot/wayland-app-launch.sh
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,772 @@
+{
+  "CurrentOpFill": 1,
+  "DefaultOpFill": {
+    "RadioFrequencyPath": [
+      {
+        "Id": 1,
+        "Power": 10,
+        "IsPathOn": true,
+        "Mode": "Sweep",
+        "FrequencyRange": [
+          {
+            "Id": 1,
+            "Lower": 20000,
+            "Upper": 250000
+          }
+        ]
+      },
+      {
+        "Id": 2,
+        "Power": 10,
+        "IsPathOn": true,
+        "Mode": "Sweep",
+        "FrequencyRange": [
+          {
+            "Id": 1,
+            "Lower": 240000,
+            "Upper": 480000
+          }
+        ]
+      },
+      {
+        "Id": 3,
+        "Power": 10,
+        "IsPathOn": true,
+        "Mode": "Sweep",
+        "FrequencyRange": [
+          {
+            "Id": 1,
+            "Lower": 880000,
+            "Upper": 960000
+          }
+        ]
+      },
+      {
+        "Id": 4,
+        "Power": 10,
+        "IsPathOn": true,
+        "Mode": "Sweep",
+        "FrequencyRange": [
+          {
+            "Id": 1,
+            "Lower": 1200000,
+            "Upper": 1660000
+          }
+        ]
+      },
+      {
+        "Id": 5,
+        "Power": 10,
+        "IsPathOn": true,
+        "Mode": "Sweep",
+        "FrequencyRange": [
+          {
+            "Id": 1,
+            "Lower": 1800000,
+            "Upper": 1880000
+          }
+        ]
+      },
+      {
+        "Id": 6,
+        "Power": 10,
+        "IsPathOn": true,
+        "Mode": "Sweep",
+        "FrequencyRange": [
+          {
+            "Id": 1,
+            "Lower": 2110000,
+            "Upper": 2180000
+          }
+        ]
+      },
+      {
+        "Id": 7,
+        "Power": 10,
+        "IsPathOn": true,
+        "Mode": "Sweep",
+        "FrequencyRange": [
+          {
+            "Id": 1,
+            "Lower": 2400000,
+            "Upper": 2690000
+          }
+        ]
+      }
+    ]
+  },
+  "OpFill": [
+    {
+      "Id": 1,
+      "RadioFrequencyPath": [
+        {
+          "Id": 1,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 20000,
+              "Upper": 250000
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 240000,
+              "Upper": 480000
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 880000,
+              "Upper": 960000
+            }
+          ]
+        },
+        {
+          "Id": 4,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1200000,
+              "Upper": 1660000
+            }
+          ]
+        },
+        {
+          "Id": 5,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1800000,
+              "Upper": 1880000
+            }
+          ]
+        },
+        {
+          "Id": 6,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2110000,
+              "Upper": 2180000
+            }
+          ]
+        },
+        {
+          "Id": 7,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2400000,
+              "Upper": 2690000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "RadioFrequencyPath": [
+        {
+          "Id": 1,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 20000,
+              "Upper": 250000
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 240000,
+              "Upper": 480000
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 880000,
+              "Upper": 960000
+            }
+          ]
+        },
+        {
+          "Id": 4,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1200000,
+              "Upper": 1660000
+            }
+          ]
+        },
+        {
+          "Id": 5,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1800000,
+              "Upper": 1880000
+            }
+          ]
+        },
+        {
+          "Id": 6,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2110000,
+              "Upper": 2180000
+            }
+          ]
+        },
+        {
+          "Id": 7,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2400000,
+              "Upper": 2690000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "RadioFrequencyPath": [
+        {
+          "Id": 1,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 20000,
+              "Upper": 250000
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 240000,
+              "Upper": 480000
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 880000,
+              "Upper": 960000
+            }
+          ]
+        },
+        {
+          "Id": 4,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1200000,
+              "Upper": 1660000
+            }
+          ]
+        },
+        {
+          "Id": 5,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1800000,
+              "Upper": 1880000
+            }
+          ]
+        },
+        {
+          "Id": 6,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2110000,
+              "Upper": 2180000
+            }
+          ]
+        },
+        {
+          "Id": 7,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2400000,
+              "Upper": 2690000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "RadioFrequencyPath": [
+        {
+          "Id": 1,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 20000,
+              "Upper": 250000
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 240000,
+              "Upper": 480000
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 880000,
+              "Upper": 960000
+            }
+          ]
+        },
+        {
+          "Id": 4,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1200000,
+              "Upper": 1660000
+            }
+          ]
+        },
+        {
+          "Id": 5,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1800000,
+              "Upper": 1880000
+            }
+          ]
+        },
+        {
+          "Id": 6,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2110000,
+              "Upper": 2180000
+            }
+          ]
+        },
+        {
+          "Id": 7,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2400000,
+              "Upper": 2690000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "RadioFrequencyPath": [
+        {
+          "Id": 1,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 20000,
+              "Upper": 250000
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 240000,
+              "Upper": 480000
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 880000,
+              "Upper": 960000
+            }
+          ]
+        },
+        {
+          "Id": 4,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1200000,
+              "Upper": 1660000
+            }
+          ]
+        },
+        {
+          "Id": 5,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1800000,
+              "Upper": 1880000
+            }
+          ]
+        },
+        {
+          "Id": 6,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2110000,
+              "Upper": 2180000
+            }
+          ]
+        },
+        {
+          "Id": 7,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2400000,
+              "Upper": 2690000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 6,
+      "RadioFrequencyPath": [
+        {
+          "Id": 1,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 20000,
+              "Upper": 250000
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 240000,
+              "Upper": 480000
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 880000,
+              "Upper": 960000
+            }
+          ]
+        },
+        {
+          "Id": 4,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1200000,
+              "Upper": 1660000
+            }
+          ]
+        },
+        {
+          "Id": 5,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1800000,
+              "Upper": 1880000
+            }
+          ]
+        },
+        {
+          "Id": 6,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2110000,
+              "Upper": 2180000
+            }
+          ]
+        },
+        {
+          "Id": 7,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2400000,
+              "Upper": 2690000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 7,
+      "RadioFrequencyPath": [
+        {
+          "Id": 1,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 20000,
+              "Upper": 250000
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 240000,
+              "Upper": 480000
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 880000,
+              "Upper": 960000
+            }
+          ]
+        },
+        {
+          "Id": 4,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1200000,
+              "Upper": 1660000
+            }
+          ]
+        },
+        {
+          "Id": 5,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 1800000,
+              "Upper": 1880000
+            }
+          ]
+        },
+        {
+          "Id": 6,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2110000,
+              "Upper": 2180000
+            }
+          ]
+        },
+        {
+          "Id": 7,
+          "Power": 10,
+          "IsPathOn": true,
+          "Mode": "Sweep",
+          "FrequencyRange": [
+            {
+              "Id": 1,
+              "Lower": 2400000,
+              "Upper": 2690000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

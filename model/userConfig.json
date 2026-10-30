@@ -1,0 +1,108 @@
+{
+  "UnitSoftware": "1.0.0",
+  "Barcode": "ABCD0123AB",
+  "Version": 6,
+  "SerialNumber": "ESK1234567",
+  "Software": "0.0.1",
+  "IPAddress": "192.168.3.170",
+  "Subnet": "24",
+  "Gateway": "192.168.3.1",
+  "IsUnitOn": false,
+  "BatteryCharging": [1,1,1],
+  "Battery":["100","100","100"],
+  "UnitOverallAlarm": false,
+  "UnitOverallAlarmType": "Antenna - Connection Failure !",
+  "UnitOverallWarning": false,
+  "UnitOverallWarningType": "Battery low !",
+  "IsConvertModeOn": false,
+  "IsBuzzLedOn": "off",
+  "IsTxButtonOn": false,
+  "IsTransmitting": false,
+  "PowerSource": "BAT",
+  "RadioFrequencyPath": [
+    {
+      "Id": 1,
+      "Name": "Band-1",
+      "Temperature": 34,
+      "FrequencyRange": [
+        {
+          "Id": 1,
+          "Lower": 20000,
+          "Upper": 250000
+        }
+      ]      
+    },
+    {
+      "Id": 2,
+      "Name": "Band-2",
+      "Temperature": 35,
+      "FrequencyRange": [
+        {
+          "Id": 1,
+          "Lower": 240000,
+          "Upper": 480000
+        }
+      ]      
+    },
+    {
+      "Id": 3,
+      "Name": "Band-3",
+      "Temperature": 36,
+      "FrequencyRange": [
+        {
+          "Id": 1,
+          "Lower": 880000,
+          "Upper": 960000
+        }
+      ]      
+    },
+    {
+      "Id": 4,
+      "Name": "Band-4",
+      "Temperature": 37,
+      "FrequencyRange": [
+        {
+          "Id": 1,
+          "Lower": 1200000,
+          "Upper": 1660000
+        }
+      ]      
+    },
+    {
+      "Id": 5,
+      "Name": "Band-5",
+      "Temperature": 38,
+      "FrequencyRange": [
+        {
+          "Id": 1,
+          "Lower": 1800000,
+          "Upper": 1880000
+        }
+      ]      
+    },
+    {
+      "Id": 6,
+      "Name": "Band-6",
+      "Temperature": 39,
+      "FrequencyRange": [
+        {
+          "Id": 1,
+          "Lower": 2110000,
+          "Upper": 2180000
+        }
+      ]      
+    },
+    {
+      "Id": 7,
+      "Name": "Band-7",
+      "Temperature": 40,
+      "FrequencyRange": [
+        {
+          "Id": 1,
+          "Lower": 2400000,
+          "Upper": 2690000
+        }
+      ]      
+    }
+  ]
+}

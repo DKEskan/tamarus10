@@ -1,0 +1,230 @@
+{
+  "ddsCount": 7,
+  "paCount": 7,
+  "fanCount": 0,
+  "distributionCount": 0,
+  "CuPowerCount": 1,
+  "CuInterfaceCount": 1,
+  "protectionCount": 9,
+  "powerCount": 1,
+  "OverallAlarm": [],
+  "System": {
+    "buildInfo": {
+      "Barcode":"ABCD3210AB",
+      "Version":999,
+      "SerialNumber":"ESK7654321",
+      "Software":"0.0.0"
+    },
+    "status": {
+      "overallStatusVal": 4,
+      "overallStatus": "Status OK",
+      "alarmsVal": 0,
+      "alarms": {},
+      "statusVal": 1,
+      "status": {
+        "PG_VIN": "OK"
+      },
+      "warningsVal": 0,
+      "warnings": {},
+      "V_IN": 3291
+    },
+    "config": {
+      "PaTargetTemp": 37,
+      "PaTempHyst": 3
+    },
+    "uartCommsAlarms": {
+      "CuPowerVal": 0,
+      "distriVal": 0,
+      "fanVal": 0,
+      "paVal": 0,
+      "ddsVal": 0,
+      "CuInterfaceVal": 0,
+      "protectionVal": 0,
+      "powerVal": 0
+    }
+  },
+  "modules": [
+    {
+      "id": 1,
+      "address": "0x5",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 2,
+      "address": "0x20",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 3,
+      "address": "0x21",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 4,
+      "address": "0x22",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 5,
+      "address": "0x23",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 6,
+      "address": "0x24",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 7,
+      "address": "0x25",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 8,
+      "address": "0x26",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 9,
+      "address": "0x30",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 10,
+      "address": "0x31",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 11,
+      "address": "0x32",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 12,
+      "address": "0x33",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 13,
+      "address": "0x34",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 14,
+      "address": "0x35",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 15,
+      "address": "0x36",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 16,
+      "address": "0x40",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 17,
+      "address": "0x41",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 18,
+      "address": "0x42",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 19,
+      "address": "0x43",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 20,
+      "address": "0x44",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 21,
+      "address": "0x45",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 22,
+      "address": "0x46",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 23,
+      "address": "0x4e",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 24,
+      "address": "0x4f",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 25,
+      "address": "0x50",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    },
+    {
+      "id": 26,
+      "address": "0x60",
+      "buildInfo": {},
+      "status": {},
+      "config": {}
+    }
+  ]
+}
