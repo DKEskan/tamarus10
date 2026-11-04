@@ -214,7 +214,7 @@ function TxDdsOffStateCheck()
 // {
 //     const dds = require('../middleware/unitModules/dds');
 //     const jsonConfig = data.moduleMap.modules;
-
+    
 //     if (!jsonConfig) {
 //         console.log(`config not found`);
 //         return ERROR;
@@ -227,95 +227,66 @@ function TxDdsOffStateCheck()
 //     let ddsNum = getDdsCount();
 //     let IsPathOn = false;
     
-//     const config = jsonConfig[module.id].config;
-//     const expectedPath = currentOpFill.RadioFrequencyPath[path];
-//     const expectedRanges = expectedPath.FrequencyRange;
-
-//     let frequenciesMatch = false;
-
 //     try{
 //         for(let moduleId = 0; moduleId < jsonConfig.length; moduleId++)
 //         {
-//             // if(dds.isModule(jsonConfig[moduleId].address))
-//             // {
-//             // 	// console.log(jsonConfig[moduleId].address);
-//             //     // console.log(jsonConfig[moduleId].status.warnings.Output_Muted);
-//             //     if(jsonConfig[moduleId].status.warnings.Output_Muted === "OK") 
-//             //     {
-//             //         IsPathOn = true;
-//             //     }
-//             //     else
-//             //     {
-//             //         IsPathOn = false;
-//             //     }
+//             if(dds.isModule(jsonConfig[moduleId].address))
+//             {
+//             	// console.log(jsonConfig[moduleId].address);
+//                 // console.log(jsonConfig[moduleId].status.warnings.Output_Muted);
+//                 if(jsonConfig[moduleId].status.warnings.Output_Muted === "OK") 
+//                 {
+//                     IsPathOn = true;
+//                 }
+//                 else
+//                 {
+//                     IsPathOn = false;
+//                 }
 
-//             //     let path = jsonConfig[moduleId].address-dds.ModuleIdRange.MIN; //use path as comparison, otherwise the other of the moduleId can break the software
+//                 let path = jsonConfig[moduleId].address-dds.ModuleIdRange.MIN; //use path as comparison, otherwise the other of the moduleId can break the software
 
-//             //     if((IsPathOn === currentOpFill.RadioFrequencyPath[path].IsPathOn) && (currentOpFill.RadioFrequencyPath[path].IsPathOn === true)) //path on, check frequencies are correct         
-//             //     {
-//             //         for(let i = 0; i < (currentOpFill.RadioFrequencyPath[path].FrequencyRange).length; i++)
-//             //         {
-//             //             if( ((jsonConfig[moduleId].config?.SweepMultiStartFreq_kHz?.[i]) === ((currentOpFill.RadioFrequencyPath[path].FrequencyRange[i].Lower))) &&
-//             //                 ((jsonConfig[moduleId].config?.SweepMultiStopFreq_kHz?.[i]) === ((currentOpFill.RadioFrequencyPath[path].FrequencyRange[i].Upper)))  )
-//             //             {
+//                 if((IsPathOn === currentOpFill.RadioFrequencyPath[path].IsPathOn) && (currentOpFill.RadioFrequencyPath[path].IsPathOn === true)) //path on, check frequencies are correct         
+//                 {
+//                     for(let i = 0; i < (currentOpFill.RadioFrequencyPath[path].FrequencyRange).length; i++)
+//                     {
+//                         if( ((jsonConfig[moduleId].config?.SweepMultiStartFreq_kHz?.[i]) === ((currentOpFill.RadioFrequencyPath[path].FrequencyRange[i].Lower))) &&
+//                             ((jsonConfig[moduleId].config?.SweepMultiStopFreq_kHz?.[i]) === ((currentOpFill.RadioFrequencyPath[path].FrequencyRange[i].Upper)))  )
+//                         {
                             
-//             //                 freqCount++;
-//             //             }
-//             //             else //one value not set correcly, not finished yet
-//             //             {
-//             //                 // console.log("count inc expected");
-//             //                 // console.log((currentOpFill.RadioFrequencyPath[path].FrequencyRange[i].Lower));
-//             //                 // console.log((currentOpFill.RadioFrequencyPath[path].FrequencyRange[i].Upper));
+//                             freqCount++;
+//                         }
+//                         else //one value not set correcly, not finished yet
+//                         {
+//                             // console.log("count inc expected");
+//                             // console.log((currentOpFill.RadioFrequencyPath[path].FrequencyRange[i].Lower));
+//                             // console.log((currentOpFill.RadioFrequencyPath[path].FrequencyRange[i].Upper));
 
-//             //                 // console.log("count inc received");
-//             //                 // console.log((jsonConfig[moduleId].config?.SweepMultiStartFreq_kHz?.[i]));
-//             //                 // console.log((jsonConfig[moduleId].config?.SweepMultiStopFreq_kHz?.[i]));
-//             //                 break;
-//             //             }
-//             //         }
+//                             // console.log("count inc received");
+//                             // console.log((jsonConfig[moduleId].config?.SweepMultiStartFreq_kHz?.[i]));
+//                             // console.log((jsonConfig[moduleId].config?.SweepMultiStopFreq_kHz?.[i]));
+//                             break;
+//                         }
+//                     }
                     
-//             //         if(freqCount === (currentOpFill.RadioFrequencyPath[path].FrequencyRange).length)
-//             //         {
-//             //             count++;
-//             //         }
-//             //         // else
-//             //         // {
-//             //         //     console.log("count inc");
-//             //         //     console.log((currentOpFill.RadioFrequencyPath[path].FrequencyRange).length);
-//             //         // }
-//             //         freqCount = 0;
-//             //     }
-//             //     else if(IsPathOn === currentOpFill.RadioFrequencyPath[path].IsPathOn)	//PA Off, don't validate frequencies
-//             //     {
-//             //     	count++;
-//             //     }
-
-//             if(expectedPath.Mode === "CW")
-//             {
-//                     frequenciesMatch =
-//                         config?.Operating_Mode === 0 &&
-//                         expectedRanges.length === 1 &&
-//                         expectedRanges[0].Lower === expectedRanges[0].Upper &&
-//                         config.CW_Freq === expectedRanges[0].Lower;
-//             }
-//             else if(expectedPath.Mode === "Sweep")
-//             {
-//                     frequenciesMatch =
-//                         config?.Operating_Mode === 1 &&
-//                         expectedRanges.length <= 6 &&
-//                         config.No_of_Active_Sweeps === expectedRanges.length &&
-//                         expectedRanges.every((range, i) =>
-//                             config[`Sweep${i + 1}StartFreq`] === range.Lower &&
-//                             config[`Sweep${i + 1}StopFreq`] === range.Upper
-//                         );
-//             }
-//             if(frequenciesMatch)
-//             {
-//                     count++;
-//             }
-//             else    //one value not set correcly, not finished yet
-//             {
+//                     if(freqCount === (currentOpFill.RadioFrequencyPath[path].FrequencyRange).length)
+//                     {
+//                         count++;
+//                     }
+//                     // else
+//                     // {
+//                     //     console.log("count inc");
+//                     //     console.log((currentOpFill.RadioFrequencyPath[path].FrequencyRange).length);
+//                     // }
+//                     freqCount = 0;
+//                 }
+//                 else if(IsPathOn === currentOpFill.RadioFrequencyPath[path].IsPathOn)	//PA Off, don't validate frequencies
+//                 {
+//                 	count++;
+//                 }
+//                 else    //one value not set correcly, not finished yet
+//                 {
 //                     break;
+//                 }
 //             }
 //         }
 //     }

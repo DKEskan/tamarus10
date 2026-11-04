@@ -220,6 +220,7 @@ function ModulesUartHandler(){
             if(nextModule !== ERROR) //should never be without an address
             {
                 modulePollDir(nextModule, 0);
+                console.log('[POLL]', pollModuleId, nextModule.toString(16));
                 pollModuleId += 1;
             }
         }catch(error)

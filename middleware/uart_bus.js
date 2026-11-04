@@ -95,6 +95,8 @@ function RefreshTimeout(queue, unitId, msgId, endPoint) {
 
 function addToTxQueue(data, endPoint, cmdData)
 {
+    console.log('[QUEUE]', Buffer.from(data).toString('hex'));
+
     if(endPoint !== 0)
     {
         let unitId = data[1];
@@ -137,6 +139,7 @@ const handleTxData = () => {
             // console.log(txBuffer[txBuffTail]);
         // }
         
+        console.log('[TX]', Buffer.from(txBuffer[txBuffTail]).toString('hex'));
         port.write(txBuffer[txBuffTail], function(err) {
         	if (err) {
             	return console.log('Error on write: ', err.message)
@@ -377,10 +380,10 @@ function handleRxData()
 {
     if(rxDataFlag === 1)     //buffer filled from uart and flag given when message ready  
     {
-        //console.log("UART Received");
+        console.log("UART Received");
         let i = 0;
-        // console.log("RX analyse");
-        //console.log(rxBuffer[rxBuffTail]);
+        console.log("RX analyse");
+        console.log(rxBuffer[rxBuffTail]);
         while((rxBuffTail !== rxBuffHead) && (i < 10))    //go through maximum queue of 10 uart message. This should not build up
         {
             processRx(rxBuffer[rxBuffTail]);
