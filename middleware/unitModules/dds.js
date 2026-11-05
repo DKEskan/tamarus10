@@ -458,27 +458,37 @@ function SetSweepConfig(path, val, endPoint)
         return invalid("FrequencyRange must be an array");
     }
 
-    const modulationMode = val.modulationMode ?? 0;
-    const modulationSettings = val.modulationSettings ?? 0x20;
+    //const modulationMode = val.modulationMode ?? 0;
+    //const modulationSettings = val.modulationSettings ?? 0x20;
 
-    if(
-        !Number.isInteger(modulationMode) ||
-        modulationMode < 0 ||
-        modulationMode > 2
-    )
-    {
-        return invalid("modulationMode must be 0, 1 or 2");
-    }
+	const modulationMode = val.modulationMode ?? 0;
+
+    // if(
+    //     !Number.isInteger(modulationMode) ||
+    //     modulationMode < 0 ||
+    //     modulationMode > 2
+    // )
+    // {
+    //     return invalid("modulationMode must be 0, 1 or 2");
+    // }
+
+	if(!Number.isInteger(modulationMode) || (modulationMode !== 0 && modulationMode !== 2))
+	{
+		return invalid("modulationMode must be None or Injected");
+	}
 
     // Bits 7–6 must be zero; bits 5–0 contain three selections.
-    if(
-        !Number.isInteger(modulationSettings) ||
-        modulationSettings < 0 ||
-        modulationSettings > 0x3F
-    )
-    {
-        return invalid("modulationSettings must be between 0x00 and 0x3F");
-    }
+
+	const modulationSettings = 0x27;
+
+	// if(
+    //     !Number.isInteger(modulationSettings) ||
+    //     modulationSettings < 0 ||
+    //     modulationSettings > 0x3F
+    // )
+    // {
+    //     return invalid("modulationSettings must be between 0x00 and 0x3F");
+    // }
 
     // Retain support for trailing null/null unused frequency pairs.
     const ranges = [];

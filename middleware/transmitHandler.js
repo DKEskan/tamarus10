@@ -479,6 +479,7 @@ function TxDdsUnmute()
         }   
     }catch(error)
     {
+        ddsUnmuteSetError = 1;
         console.log("Tx DDS Unmute error")
         console.log(error);
     }
@@ -515,6 +516,7 @@ function TxDdsMute()
         }   
     }catch(error)
     {
+        ddsMuteSetError = 1;
         console.log("transmit DDS Off error")
         console.log(error);
     }
@@ -540,6 +542,10 @@ function TxDdsFreqSet()
     try{
         for(let modules = 1; modules <= (moduleDataController.getDdsCount()); modules++)
         {
+            const opFill = currentOpFill.OpFill;
+            const band = opFill.RadioFrequencyPath[modules - 1];
+            const injected = opFill.ModulationEnabled === true && band.ModulationEnabled === true;
+            
             let tmp = {"IsPathOn":false};
             tmp.IsPathOn = currentOpFill.OpFill.RadioFrequencyPath[modules-1].IsPathOn;
 
@@ -551,8 +557,8 @@ function TxDdsFreqSet()
                     "FrequencyStep": 10000,
                     "DwellTime": 20,
                     // "FrequencyDeviation": 0,
-                    "modulationMode": 0,
-                    "modulationSettings": 0x20,
+                    "modulationMode": injected ? 2 : 0,
+                    //"modulationSettings": 0x20,
                     "FrequencyRange": []
                 };
 
@@ -581,6 +587,7 @@ function TxDdsFreqSet()
         }       
     }catch(error)
     {
+        ddsSweepSetError = 1;
         console.log("transmit DDS ON error")
         console.log(error);
     }

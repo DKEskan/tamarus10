@@ -1,12 +1,14 @@
 {
   "CurrentOpFill": 1,
   "DefaultOpFill": {
+    "ModulationEnabled": false,
     "RadioFrequencyPath": [
       {
         "Id": 1,
         "Power": 10,
         "IsPathOn": true,
         "Mode": "Sweep",
+        "ModulationEnabled": false, 
         "FrequencyRange": [
           {
             "Id": 1,
@@ -20,6 +22,7 @@
         "Power": 10,
         "IsPathOn": true,
         "Mode": "Sweep",
+        "ModulationEnabled": false,
         "FrequencyRange": [
           {
             "Id": 1,
@@ -33,6 +36,7 @@
         "Power": 10,
         "IsPathOn": true,
         "Mode": "Sweep",
+        "ModulationEnabled": false,
         "FrequencyRange": [
           {
             "Id": 1,
@@ -46,6 +50,7 @@
         "Power": 10,
         "IsPathOn": true,
         "Mode": "Sweep",
+        "ModulationEnabled": false,
         "FrequencyRange": [
           {
             "Id": 1,
@@ -59,6 +64,7 @@
         "Power": 10,
         "IsPathOn": true,
         "Mode": "Sweep",
+        "ModulationEnabled": false,
         "FrequencyRange": [
           {
             "Id": 1,
@@ -72,6 +78,7 @@
         "Power": 10,
         "IsPathOn": true,
         "Mode": "Sweep",
+        "ModulationEnabled": false,
         "FrequencyRange": [
           {
             "Id": 1,
@@ -85,6 +92,7 @@
         "Power": 10,
         "IsPathOn": true,
         "Mode": "Sweep",
+        "ModulationEnabled": false,
         "FrequencyRange": [
           {
             "Id": 1,
@@ -98,12 +106,14 @@
   "OpFill": [
     {
       "Id": 1,
+      "ModulationEnabled": false,
       "RadioFrequencyPath": [
         {
           "Id": 1,
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -117,6 +127,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -130,6 +141,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -143,6 +155,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -156,6 +169,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -169,6 +183,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -182,6 +197,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -194,12 +210,14 @@
     },
     {
       "Id": 2,
+      "ModulationEnabled": false,
       "RadioFrequencyPath": [
         {
           "Id": 1,
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -213,6 +231,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -226,6 +245,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -239,6 +259,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -252,6 +273,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -265,6 +287,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -278,6 +301,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -290,12 +314,14 @@
     },
     {
       "Id": 3,
+      "ModulationEnabled": false,
       "RadioFrequencyPath": [
         {
           "Id": 1,
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -309,6 +335,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -322,6 +349,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -335,6 +363,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -348,6 +377,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -361,6 +391,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -374,6 +405,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -386,12 +418,14 @@
     },
     {
       "Id": 4,
+      "ModulationEnabled": false,
       "RadioFrequencyPath": [
         {
           "Id": 1,
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -405,6 +439,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -418,6 +453,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -431,6 +467,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -444,6 +481,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -457,6 +495,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -470,6 +509,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -482,12 +522,14 @@
     },
     {
       "Id": 5,
+      "ModulationEnabled": false,
       "RadioFrequencyPath": [
         {
           "Id": 1,
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -501,6 +543,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -514,6 +557,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -527,6 +571,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -540,6 +585,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -553,6 +599,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -566,6 +613,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -578,12 +626,14 @@
     },
     {
       "Id": 6,
+      "ModulationEnabled": false,
       "RadioFrequencyPath": [
         {
           "Id": 1,
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -597,6 +647,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -610,6 +661,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -623,6 +675,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -636,6 +689,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -649,6 +703,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -662,6 +717,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -674,12 +730,14 @@
     },
     {
       "Id": 7,
+      "ModulationEnabled": false,
       "RadioFrequencyPath": [
         {
           "Id": 1,
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -693,6 +751,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -706,6 +765,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -719,6 +779,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -732,6 +793,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -745,6 +807,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
@@ -758,6 +821,7 @@
           "Power": 10,
           "IsPathOn": true,
           "Mode": "Sweep",
+          "ModulationEnabled": false,
           "FrequencyRange": [
             {
               "Id": 1,
