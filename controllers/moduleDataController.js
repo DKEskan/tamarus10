@@ -70,6 +70,7 @@ function initMap() //add new module to map
           }
     };
 	data.moduleMap.modules = [];
+    ddsModulationReadback.fill(null);
 }
 
 function createNewModuleMap(newModuleAddr, moduleType) //add new module to map. Count modules included
@@ -164,6 +165,20 @@ function getDdsCount() {
 function getPaCount() {
     return parseInt(data.moduleMap.paCount); 
 }
+
+const ddsModulationReadback = Array(7).fill(null);
+
+function setDdsModulationReadback(unitId, mode) {
+    const index = unitId - 0x20;
+    if (index >= 0 && index < 7) {
+        ddsModulationReadback[index] = mode;
+    }
+}
+
+function getDdsModulationReadback() {
+    return [...ddsModulationReadback];
+}
+
 
 function TxDdsOffStateCheck()
 {
@@ -1416,5 +1431,5 @@ module.exports = { initMap, createNewModuleMap, getModuleMap, saveModuleMap, get
                     updateModuleConfig, updateCarrierConfig, getFanCount, getPathCount, getVoltages, 
                     updateCarrierStatus, clearCarrierAlarms, UpdateUartCommsAlarm, updateOverallAlarm, getDdsCount, 
                     getPaCount, getAlarmedModules, getPaTargetTemp, getProtFanState, clearAlarms,
-                    TxPaOnStateCheck, TxPaOffStateCheck, TxDdsOnStateCheck, TxDdsOffStateCheck, getActiveAlarmList, getPaTempHyst, getPowerPcbWarning,
+                    TxPaOnStateCheck, TxPaOffStateCheck, TxDdsOnStateCheck, TxDdsOffStateCheck, getActiveAlarmList, getPaTempHyst, getPowerPcbWarning, setDdsModulationReadback, getDdsModulationReadback,
                     alarmsCode, warningsCode, statusCode, ResetOptions }

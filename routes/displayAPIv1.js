@@ -241,6 +241,15 @@ function route(msg)
 					if(result === OK)
 					{
 						response.code = HttpCode.OK;
+						const currentNumber =
+						userDataController.getCurrentOpfill().CurrentOpFill;
+
+						response.body = {
+							saved: true,
+							ddsQueued:
+								Number(op) === Number(currentNumber) &&
+								transmitHandler.ApplyCurrentOpFillDdsWhileMuted(op)
+						};
 					}
 					else
 					{
@@ -256,7 +265,7 @@ function route(msg)
 			}
 			else if(command === "user/uploadOpFill")
 			{
-				if((userDataController.getUserIsTransmitting()).IsTransmitting === false) //not transmitting
+				if((transmitHandler.isTxFullyOff() && userDataController.getUserIsTransmitting()).IsTransmitting === false) //not transmitting
 				{
 					let opFillIndex = ERROR;
 	
@@ -275,6 +284,9 @@ function route(msg)
 						if(data !== ERROR)
 						{
 							response.code = HttpCode.Accepted; 
+							response.body = {
+								ddsQueued: transmitHandler.ApplyCurrentOpFillDdsWhileMuted(Number(opFillIndex))
+							};
 						}
 						else
 						{

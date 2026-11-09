@@ -96,7 +96,8 @@ function getUserConfig()
 		...jsonConfig,
 		ActiveAlarms: jsonConfig.UnitOverallAlarm ?
 		moduleDataController.getActiveAlarmList()
-		: []
+		: [],
+		DdsModulationReadback: moduleDataController.getDdsModulationReadback()
 	};
 }
 
@@ -342,6 +343,7 @@ function saveOpfill(op, body)
         return ERROR;
     }
 
+	data.opFill.OpFill[op].ModulationEnabled = body.ModulationEnabled;
 	data.opFill.OpFill[op].RadioFrequencyPath = body.RadioFrequencyPath;
 
 	if(saveToOpFillJson() === ERROR)

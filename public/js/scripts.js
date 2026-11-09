@@ -39,6 +39,7 @@ var cycleMessage = 0;
  
   socket.addEventListener('open', function(event) {
     //console.log('connected to WS Server!');
+    getConfig();
   })
   socket.addEventListener('error', function(event) {
     console.log('socket error message ' + event);
@@ -66,6 +67,23 @@ socket.addEventListener('message', function(event) {
     }
     //document.getElementById("responseData").innerHTML = "Button Pressed: " + event.data;     
   })
+
+
+  let globalModulationEnabled = false;
+  let modulationEnabledByPath = Array(7).fill(false);
+
+  function showModulationButton() {
+      const button = document.getElementById("c_btn_10");
+      button.textContent = globalModulationEnabled ? "☑ Modn" : "☐ Modn";
+      button.setAttribute("aria-checked", String(globalModulationEnabled));
+  }
+
+  function toggleAllModulation() {
+      globalModulationEnabled = !globalModulationEnabled;
+      modulationEnabledByPath.fill(globalModulationEnabled);
+      showModulationButton();
+      setConfigMenuParameterChangeCss(1); // mark settings as changed
+  }
 
   function getConfig()
   {
@@ -763,18 +781,28 @@ function highlightOpFillScreen(pos, prevPos)
     console.log(err);
   }
 }
-function onEnterOpFillScreen(){
-  try{
-    let pos = parseInt($(hdn_opFill_pos).val()); 
-    putUploadOpFill(pos); 
-    getOpFill(pos);  
-    document.getElementById("opFillSelection").innerHTML = "Op.Fill " + pos;  
-    DisplayOpFill();
-  }catch(err)
-	{
-		console.log(err);
-	}
+// function onEnterOpFillScreen(){
+//   try{
+//     let pos = parseInt($(hdn_opFill_pos).val()); 
+//     putUploadOpFill(pos); 
+//     getOpFill(pos);  
+//     document.getElementById("opFillSelection").innerHTML = "Op.Fill " + pos;  
+//     DisplayOpFill();
+//   }catch(err)
+// 	{
+// 		console.log(err);
+// 	}
+// }
+
+function onEnterOpFillScreen() {
+  try {
+    const pos = Number($(hdn_opFill_pos).val());
+    putUploadOpFill(pos);
+  } catch (err) {
+    console.log(err);
+  }
 }
+
 
 /* OpFill Selection Screen END */
 /* Frequency SCREEN BEGIN */
@@ -2165,10 +2193,10 @@ function configNavArrowKeyleft(){
       let currentConfigMenu = $(hdn_currentConfigMenu).val(); 
       if(currentConfigMenu == 1){
         let currentConfigMSButPos =  parseInt(currentConfigMSButPosValue) - 1; 
-        if(currentConfigMSButPos === 10)  //skip ID 10, config navigation is a mess, requires full rework and clean 
-        {
-          currentConfigMSButPos--;
-        }
+        // if(currentConfigMSButPos === 10)  //skip ID 10, config navigation is a mess, requires full rework and clean 
+        // {
+        //   currentConfigMSButPos--;
+        // }
         configNavSetTitleLabel(parseInt(currentConfigMSButPos));
         configElementHighlight(currentConfigMSButPos,btnfocus);
         setConfigbtnFocusHighlight(currentConfigMSButPos,btnfocus);
@@ -2201,10 +2229,10 @@ function configNavArrowKeyRight(){
       if(parseInt(currentConfigMSButPosValue) >= configScreenMinButtonPosition && parseInt(currentConfigMSButPosValue) < configScreenMaxButtonPosition)
       {
         let currentConfigMSButPos =  parseInt(currentConfigMSButPosValue) + 1; 
-        if(currentConfigMSButPos === 10)  //skip ID 10, config navigation is a mess, requires full rework and clean 
-        {
-          currentConfigMSButPos++;
-        }
+        // if(currentConfigMSButPos === 10)  //skip ID 10, config navigation is a mess, requires full rework and clean 
+        // {
+        //   currentConfigMSButPos++;
+        // }
         configNavSetTitleLabel(parseInt(currentConfigMSButPos));
         configElementHighlight(currentConfigMSButPos,btnfocus);
         setConfigbtnFocusHighlight(currentConfigMSButPos,btnfocus);
@@ -2306,6 +2334,9 @@ function configNavSetTitleLabel(button)
       break;
     case 9: 
       document.getElementById('responseData').innerHTML = 'Change Password'; 
+      break;
+    case 10:
+      document.getElementById('responseData').innerHTML = 'Toggle MODN on all paths';
       break;
     case 11: 
     case 25: 
@@ -2645,7 +2676,8 @@ function configButtonClickEvent(buttonPos)
         }   
         return;
       case "10":
-      break;
+        toggleAllModulation();
+        return;
       case "11":
         setConfigMenuParameterChangeCss(0);
         InitialiseMainScreen();
@@ -2997,6 +3029,7 @@ function BuildOpFillJson(){
   try{
     let obj = new Object();
     obj.op = BuildOpFillNumber();
+    obj.ModulationEnabled = globalModulationEnabled;
     let radioFrequencyPath = [];
 
     for (let i = 0; i < 7; i++) {
@@ -3034,6 +3067,7 @@ function BuildRadioFrequencyPathObject(pos, rfobj){
     radioFrequencyPathObj.Power = getConfigPowerRangeSave(frequencyRangeID);
     radioFrequencyPathObj.IsPathOn = getConfigPowerSave(frequencyRangeID);
     radioFrequencyPathObj.Mode =  'Sweep';
+    radioFrequencyPathObj.ModulationEnabled = modulationEnabledByPath[pos];
     //if(obj != null){
       //console.log(rfobj);
    // }
@@ -3417,7 +3451,7 @@ function setConfig(data)
   try
   {
     storeConfigJson(data)
-    
+    setConfigRadioFrequencyTitle();
     setBattery(data);
     DisplaycovertScreen(data); 
     DisplayBatteryScreen(data);
@@ -4168,6 +4202,9 @@ function SetOpFillData(data)
       setFrequencyBand(data.RadioFrequencyPath[i].FrequencyRange, data.RadioFrequencyPath[i].Id);
       radioFreqObj[i].subbands = data.RadioFrequencyPath[i].FrequencyRange;
     }
+    globalModulationEnabled = data.ModulationEnabled === true;
+    modulationEnabledByPath = data.RadioFrequencyPath.map(path => path.ModulationEnabled === true);
+    showModulationButton();
   }catch(err)
 	{
 		console.log(err);
@@ -4325,25 +4362,58 @@ function setUnitPower(data)
     }  
 }
 
-function setConfigRadioFrequencyTitle(){
-  try{
-    let obj = JSON.parse(configJsonArr);
-    if(obj !== null)
-    {
-      if (obj.hasOwnProperty(keyRadioFrequencyPath)) {
-        let radioFrequencyObject =  obj[keyRadioFrequencyPath];
-        for(let radioFrequencyKey in radioFrequencyObject)
-        {
-          let frequencyRangeObj = radioFrequencyObject[radioFrequencyKey][keyfrequencyRange]; 
-          minFrequencies[radioFrequencyKey] = frequencyRangeObj[0][lower]/1000;
-          maxFrequencies[radioFrequencyKey] = frequencyRangeObj[0][upper]/1000;
-          document.querySelector(m_span_title + radioFrequencyObject[radioFrequencyKey][keyId]).innerText = `${frequencyRangeObj[0][lower]/1000} - ${frequencyRangeObj[0][upper]/1000} ${mhz}`;
-          bandSpanWidth[radioFrequencyKey] = maxFrequencies[radioFrequencyKey]-minFrequencies[radioFrequencyKey];
-        }
-      }
+// function setConfigRadioFrequencyTitle(){
+//   try{
+//     let obj = JSON.parse(configJsonArr);
+//     if(obj !== null)
+//     {
+//       if (obj.hasOwnProperty(keyRadioFrequencyPath)) {
+//         let radioFrequencyObject =  obj[keyRadioFrequencyPath];
+//         for(let radioFrequencyKey in radioFrequencyObject)
+//         {
+//           let frequencyRangeObj = radioFrequencyObject[radioFrequencyKey][keyfrequencyRange]; 
+//           minFrequencies[radioFrequencyKey] = frequencyRangeObj[0][lower]/1000;
+//           maxFrequencies[radioFrequencyKey] = frequencyRangeObj[0][upper]/1000;
+//           document.querySelector(m_span_title + radioFrequencyObject[radioFrequencyKey][keyId]).innerText = `${frequencyRangeObj[0][lower]/1000} - ${frequencyRangeObj[0][upper]/1000} ${mhz}`;
+//           bandSpanWidth[radioFrequencyKey] = maxFrequencies[radioFrequencyKey]-minFrequencies[radioFrequencyKey];
+//         }
+//       }
+//     }
+//   } 
+//   catch(err) {
+//     console.log(err);
+//   }
+// }
+
+function setConfigRadioFrequencyTitle() {
+  try {
+    const obj = JSON.parse(configJsonArr);
+    if (!obj?.RadioFrequencyPath) return;
+
+    for (const radioFrequencyKey in obj.RadioFrequencyPath) {
+      const path = obj.RadioFrequencyPath[radioFrequencyKey];
+      const frequencyRangeObj = path.FrequencyRange;
+
+      minFrequencies[radioFrequencyKey] = frequencyRangeObj[0].Lower / 1000;
+      maxFrequencies[radioFrequencyKey] = frequencyRangeObj[0].Upper / 1000;
+      bandSpanWidth[radioFrequencyKey] =
+        maxFrequencies[radioFrequencyKey] - minFrequencies[radioFrequencyKey];
+
+      const mode = obj.DdsModulationReadback?.[Number(radioFrequencyKey)];
+      // const modLabel =
+      //   mode === 2 ? "MODN" :
+      //   mode === 0 ? "No MODN" :
+      //   "MODN unknown";
+
+      const modLabel = 
+        mode === 2 ? "(Modn)" : 
+        mode === 0 ? "" : "(Modn ?)";
+
+      document.querySelector(m_span_title + path.Id).innerText =
+        `${minFrequencies[radioFrequencyKey]} - ` +
+        `${maxFrequencies[radioFrequencyKey]} ${mhz} ${modLabel}`;
     }
-  } 
-  catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }
@@ -4624,9 +4694,23 @@ function receivedSocketMessage(message){
       case destroyCommand:
         console.log(message); 
       break;
-      case 5:
-        console.log(message);    
-      break;                
+      case "uploadOpFill":
+      if ($(hdn_opFill_menu).val() == 1) {
+        DisplayOpFill();
+      }
+
+      if (message.code !== 202) {
+        document.getElementById("responseData").textContent =
+          typeof message.body === "string"
+            ? message.body
+            : "OpFill change failed";
+      }
+
+      getCurrentOpfill();
+      break;
+      // case 5:
+      //   console.log(message);    
+      // break;                
       case 6:
         console.log(message);    
       break;

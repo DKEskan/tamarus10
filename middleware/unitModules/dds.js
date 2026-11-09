@@ -936,6 +936,12 @@ function EskanToJson(data, setMsg)  //for responses from messages being polled
         				];
 					}
 					
+					console.log(
+						`DDS 0x${unitId.toString(16)} readback: ` +
+						`modulationMode=${modulationMode}, ` +
+						`modulationSettings=0x${modulationSettings.toString(16).padStart(2, "0")}`
+					);
+
 					let buildInfoObj = { address: "0x" + unitId.toString(16), buildInfo: {}};
 
     				let configObj = { address: "0x" + unitId.toString(16), config: {}};
@@ -995,9 +1001,11 @@ function EskanToJson(data, setMsg)  //for responses from messages being polled
 					configObj.config.modulationMode = data[192];
 					configObj.config.modulationSettings = data[193];
 
-
 					moduleDataController.updateModuleConfig(buildInfoObj);
     				moduleDataController.updateModuleConfig(configObj);
+
+					moduleDataController.setDdsModulationReadback(unitId, modulationMode);
+					require('../uiWebSocket').sendButtonUpdate('U');
 
     				return [HttpCode.OK, ""];
 			}
@@ -1104,6 +1112,12 @@ function EskanToJson(data, setMsg)  //for responses from messages being polled
 				}
 
 				moduleDataController.updateModuleConfig(configObj);
+
+				if(AckNAckData === 0x41)
+				{
+					eskanProtocol.packAndQueue([unitId, CommandId.getConfig] , 0);
+				}
+
 				return [HttpCode.Accepted, ""];
 			}
 
