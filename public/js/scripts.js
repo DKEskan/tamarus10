@@ -4143,7 +4143,7 @@ function DisplayAlarm(data){
             hidePopups();
             $(m_s_error).show();
 
-            $(s_s_error_type_text).text("ALARM 130");
+            $(s_s_error_type_text).text("WARNING");
             $(s_s_error).text(data.SweepNarrowAlert.text);
 
             $(m_s_error).removeClass(warningmessage);
