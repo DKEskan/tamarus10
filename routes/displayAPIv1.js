@@ -199,7 +199,13 @@ function route(msg)
 		}
 		else if(type === "PUT")
 		{
-			if(command === "user/saveOpFill")
+			if (command === "user/ackNarrowSweepAlert")
+			{
+				userDataController.acknowledgeNarrowSweepAlert();
+				response.code = HttpCode.OK;
+				response.body = {};
+			}
+			else if(command === "user/saveOpFill")
 			{
 				let op = null;
 				for(let key in body)
@@ -265,7 +271,7 @@ function route(msg)
 			}
 			else if(command === "user/uploadOpFill")
 			{
-				if((transmitHandler.isTxFullyOff() && userDataController.getUserIsTransmitting()).IsTransmitting === false) //not transmitting
+				if(transmitHandler.isTxFullyOff() && userDataController.getUserIsTransmitting().IsTransmitting === false) //not transmitting
 				{
 					let opFillIndex = ERROR;
 	
@@ -450,6 +456,29 @@ function checkOpFillInput(body, response)
 			validate values
 		*/
 	
+		for (let i = 0; i < MAX_BANDS; i++)
+		{
+			const path = body.RadioFrequencyPath[i];
+			const step = path?.FrequencyStep;
+			const ramp = path?.RampRate;
+
+			if (!Number.isInteger(step) || step < 1000 || step > 4000000)
+			{
+				response.code = HttpCode.UnprocessibleEntity;
+				response.body =
+					`Band ${i + 1}: FrequencyStep must be 1000-4000000 Hz`;
+				return response;
+			}
+
+			if (!Number.isInteger(ramp) || ramp < 1 || ramp > 65535)
+			{
+				response.code = HttpCode.UnprocessibleEntity;
+				response.body =
+					`Band ${i + 1}: RampRate must be 1-65535 DDS counts`;
+				return response;
+			}
+		}
+
 		for(let i = 0; i < power.length; i++)
 		{
 			if(power[i] > MAX_POWER_LEVEL)
@@ -528,12 +557,46 @@ function checkOpFillInput(body, response)
 					}
 				}
 
-				if(freqBandCount > 6)
+				if( freqBandCount < 1 || freqBandCount > 6)
 				{
 					response.code = HttpCode.UnprocessibleEntity;
 					response.body = "Sweep Mode band " + (i+1) + " has more than 6 bands";
 					return response;
 				}
+
+				const minimumSpan_kHz =
+					Math.floor(body.RadioFrequencyPath[i].FrequencyStep / 1000);
+
+				for (let j = 0; j < freqBandCount; j++)
+				{
+					const lower = freqLower[i][j];
+					const upper = freqUpper[i][j];
+
+					if (!Number.isInteger(lower) || !Number.isInteger(upper) ||
+						lower < 0 || upper < 0 ||
+						lower > 0xFFFFFFFF || upper > 0xFFFFFFFF)
+					{
+						response.code = HttpCode.UnprocessibleEntity;
+						response.body =
+							`Sweep Mode band ${i + 1}, range ${j + 1}: invalid frequency`;
+						return response;
+					}
+
+					// V12 allows equality with one step for sweep 1;
+					// later sweeps require a span greater than one step.
+					const spanTooSmall = j === 0
+						? upper < lower + minimumSpan_kHz
+						: upper <= lower + minimumSpan_kHz;
+
+					if (spanTooSmall)
+					{
+						response.code = HttpCode.UnprocessibleEntity;
+						response.body =
+							`Sweep Mode band ${i + 1}, range ${j + 1}: span is too small for FrequencyStep`;
+						return response;
+					}
+				}
+
 				//WARNING - check against acceptable DDS hardware frequency range not done
 			}
 		}

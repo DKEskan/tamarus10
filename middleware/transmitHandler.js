@@ -551,23 +551,43 @@ function TxDdsFreqSet()
             const opFill = currentOpFill.OpFill;
             const band = opFill.RadioFrequencyPath[modules - 1];
 
+            const address = 0x20 + modules - 1;
+            const ddsUnit = moduleDataController.getModuleMap()?.modules
+                ?.find(unit => Number(unit.address) === address);
+            const multiplier = Number(ddsUnit?.config?.Freq_Multiplier);
+
+            if (![1, 2, 4, 8].includes(multiplier)) {
+                ddsSweepSetError = 1;
+                console.log(`DDS ${modules}: missing or invalid frequency multiplier`);
+                continue;
+            }
+
             const hasNarrowRange = band.Mode === "Sweep" && band.FrequencyRange.some(range=>
-                range.Upper != null && range.Lower != null && range.Upper - range.Lower < 2000
+                range.Upper != null && range.Lower != null && range.Upper - range.Lower < 2000 * multiplier
             );
 
             const injected = opFill.ModulationEnabled === true && band.ModulationEnabled === true && !hasNarrowRange;
-            
+
+            const modulationRequested = opFill.ModulationEnabled === true && band.ModulationEnabled === true;
+
             let tmp = {"IsPathOn":false};
             tmp.IsPathOn = currentOpFill.OpFill.RadioFrequencyPath[modules-1].IsPathOn;
 
             if(tmp.IsPathOn === true)   //if path is on, enable DDS
             {
+
+                if (modulationRequested && hasNarrowRange) {
+                    userDataController.latchNarrowSweepAlert(modules);
+                }
+
                 message = 
                 {
                     "Mode": "Sweep",
-                    "FrequencyStep": 10000,
-                    "DwellTime": 20,
+                    //"FrequencyStep": 10000,
+                    //"DwellTime": 20,
                     // "FrequencyDeviation": 0,
+                    "FrequencyStep": band.FrequencyStep,
+                    "DwellTime": band.RampRate,
                     "modulationMode": injected ? 2 : 0,
                     //"modulationSettings": 0x20,
                     "FrequencyRange": []
@@ -584,7 +604,8 @@ function TxDdsFreqSet()
                     message.FrequencyRange[bands].Lower = currentOpFill.OpFill.RadioFrequencyPath[modules-1].FrequencyRange[bands].Lower;
                     message.FrequencyRange[bands].Upper = currentOpFill.OpFill.RadioFrequencyPath[modules-1].FrequencyRange[bands].Upper;
                 }
-
+                
+                moduleDataController.invalidateDdsSweepReadback(0x20 + modules - 1);
                 let msgTx = dds.SetSweepConfig(modules, message, null); //start index from 0
                 let Status = msgTx[0];
                 let errorCode = msgTx[1];
@@ -611,13 +632,129 @@ function TxDdsFreqSet()
 }
 
 
+// function ApplyCurrentOpFillDdsWhileMuted(opNumber)
+// {
+//     const dds = require('./unitModules/dds');
+//     const moduleDataController = require('../controllers/moduleDataController');
+//     const userDataController = require('../controllers/userDataController');
+
+//     // Do not run during TX or while the DDS outputs are unmuted.
+//     if (currentState !== TxPowerStates.TxOff ||
+//         moduleDataController.TxDdsOffStateCheck() !== OK)
+//     {
+//         return false;
+//     }
+
+//     const current = userDataController.getCurrentOpfill();
+//     if (Number(current.CurrentOpFill) !== Number(opNumber))
+//     {
+//         return false;
+//     }
+
+//     const modules = moduleDataController.getModuleMap().modules;
+//     const readback = moduleDataController.getDdsModulationReadback();
+//     const commands = [];
+
+//     for (const unit of modules)
+//     {
+//         const address = Number(unit.address);
+//         if (address < 0x20 || address > 0x26) continue;
+
+//         const index = address - 0x20;
+//         const band = current.OpFill.RadioFrequencyPath[index];
+//         const config = unit.config;
+
+//         if (!band || !config || !Array.isArray(band.FrequencyRange))
+//         {
+//             return false;
+//         }
+
+//         const narrow = band.Mode === "Sweep" &&
+//             band.FrequencyRange.some(range =>
+//                 range?.Lower != null &&
+//                 range?.Upper != null &&
+//                 range.Upper - range.Lower < 2000
+//             );
+
+//         const mode =
+//             current.OpFill.ModulationEnabled === true &&
+//             band.ModulationEnabled === true &&
+//             !narrow ? 2 : 0;
+
+//         // This DDS already reported the requested mode and 0x27 settings.
+//         if (readback[index] === mode &&
+//             config.modulationSettings === 0x27)
+//         {
+//             continue;
+//         }
+
+//         let message;
+
+//         if (config.Operating_Mode === 0) // Keep existing CW frequency.
+//         {
+//             message = {
+//                 Mode: "CW",
+//                 FrequencyRange: [{
+//                     Lower: config.CW_Freq,
+//                     Upper: config.CW_Freq
+//                 }],
+//                 modulationMode: mode
+//             };
+//         }
+//         else if (config.Operating_Mode === 1) // Keep existing sweep.
+//         {
+//             const count = config.No_of_Active_Sweeps;
+//             if (!Number.isInteger(count) || count < 1 || count > 6)
+//             {
+//                 return false;
+//             }
+
+//             const ranges = [];
+//             for (let i = 1; i <= count; i++)
+//             {
+//                 ranges.push({
+//                     Lower: config[`Sweep${i}StartFreq`],
+//                     Upper: config[`Sweep${i}StopFreq`]
+//                 });
+//             }
+
+//             message = {
+//                 Mode: "Sweep",
+//                 FrequencyRange: ranges,
+//                 FrequencyStep: config.SweepFreqStep,
+//                 DwellTime: config.RampRate,
+//                 modulationMode: mode
+//             };
+//         }
+//         else
+//         {
+//             return false;
+//         }
+
+//         commands.push({ path: index + 1, message });
+//     }
+
+//     for (const command of commands)
+//     {
+//         if (dds.SetSweepConfig(
+//             command.path, command.message, null
+//         )[0] !== OK)
+//         {
+//             return false;
+//         }
+//     }
+
+//     //return true; // Queued; the later 0xC0 readback confirms application.
+//     return commands.length > 0;
+// }
+
 function ApplyCurrentOpFillDdsWhileMuted(opNumber)
 {
     const dds = require('./unitModules/dds');
     const moduleDataController = require('../controllers/moduleDataController');
     const userDataController = require('../controllers/userDataController');
 
-    // Do not run during TX or while the DDS outputs are unmuted.
+    // Never reconfigure during TX or while a DDS output is unmuted.
     if (currentState !== TxPowerStates.TxOff ||
         moduleDataController.TxDdsOffStateCheck() !== OK)
     {
@@ -625,16 +762,22 @@ function ApplyCurrentOpFillDdsWhileMuted(opNumber)
     }
 
     const current = userDataController.getCurrentOpfill();
-    if (Number(current.CurrentOpFill) !== Number(opNumber))
+    if (!Array.isArray(current?.OpFill?.RadioFrequencyPath) ||
+        Number(current.CurrentOpFill) !== Number(opNumber))
     {
         return false;
     }
 
-    const modules = moduleDataController.getModuleMap().modules;
+    const moduleMap = moduleDataController.getModuleMap();
+    if (!Array.isArray(moduleMap?.modules))
+    {
+        return false;
+    }
+
     const readback = moduleDataController.getDdsModulationReadback();
     const commands = [];
 
-    for (const unit of modules)
+    for (const unit of moduleMap.modules)
     {
         const address = Number(unit.address);
         if (address < 0x20 || address > 0x26) continue;
@@ -648,49 +791,59 @@ function ApplyCurrentOpFillDdsWhileMuted(opNumber)
             return false;
         }
 
-        const narrow = band.Mode === "Sweep" &&
-            band.FrequencyRange.some(range =>
-                range?.Lower != null &&
-                range?.Upper != null &&
-                range.Upper - range.Lower < 2000
-            );
+        const multiplier = Number(config.Freq_Multiplier);
+        if (![1, 2, 4, 8].includes(multiplier)) {
+            return false;
+        }
 
-        const mode =
+        const narrow = band.Mode === "Sweep" &&
+        band.FrequencyRange.some(range =>
+            range?.Lower != null &&
+            range?.Upper != null &&
+            range.Upper - range.Lower < 2000 * multiplier
+        );
+
+        const modulationRequested = current.OpFill.ModulationEnabled === true && band.ModulationEnabled === true;
+
+        if (modulationRequested && narrow) {
+            userDataController.latchNarrowSweepAlert(index + 1);
+        }
+
+        const modulationMode =
             current.OpFill.ModulationEnabled === true &&
             band.ModulationEnabled === true &&
             !narrow ? 2 : 0;
-
-        // This DDS already reported the requested mode and 0x27 settings.
-        if (readback[index] === mode &&
-            config.modulationSettings === 0x27)
-        {
-            continue;
-        }
-
+     
         let message;
+        let configurationMatches = true;
 
-        if (config.Operating_Mode === 0) // Keep existing CW frequency.
-        {
+        if (config.Operating_Mode === 0) {
+            // Change modulation without changing the DDS's current CW frequency.
             message = {
                 Mode: "CW",
                 FrequencyRange: [{
                     Lower: config.CW_Freq,
                     Upper: config.CW_Freq
                 }],
-                modulationMode: mode
+                modulationMode
             };
         }
-        else if (config.Operating_Mode === 1) // Keep existing sweep.
-        {
-            const count = config.No_of_Active_Sweeps;
-            if (!Number.isInteger(count) || count < 1 || count > 6)
-            {
+        else if (config.Operating_Mode === 1) {
+            if (!Number.isInteger(config.No_of_Active_Sweeps) ||
+                config.No_of_Active_Sweeps < 1 ||
+                config.No_of_Active_Sweeps > 6 ||
+                !Number.isInteger(band.FrequencyStep) ||
+                band.FrequencyStep < 1000 ||
+                band.FrequencyStep > 4000000 ||
+                !Number.isInteger(band.RampRate) ||
+                band.RampRate < 1 ||
+                band.RampRate > 65535) {
                 return false;
             }
 
+            // Reuse frequencies already accepted by this DDS.
             const ranges = [];
-            for (let i = 1; i <= count; i++)
-            {
+            for (let i = 1; i <= config.No_of_Active_Sweeps; i++) {
                 ranges.push({
                     Lower: config[`Sweep${i}StartFreq`],
                     Upper: config[`Sweep${i}StopFreq`]
@@ -700,31 +853,48 @@ function ApplyCurrentOpFillDdsWhileMuted(opNumber)
             message = {
                 Mode: "Sweep",
                 FrequencyRange: ranges,
-                FrequencyStep: config.SweepFreqStep,
-                DwellTime: config.RampRate,
-                modulationMode: mode
+                FrequencyStep: band.FrequencyStep, // Hz, from the saved OpFill
+                DwellTime: band.RampRate,          // DDS counts, from the saved OpFill
+                modulationMode
             };
+
+            configurationMatches =
+                config.SweepFreqStep === band.FrequencyStep &&
+                config.RampRate === band.RampRate;
         }
-        else
-        {
+        else {
             return false;
         }
 
-        commands.push({ path: index + 1, message });
+        const modulationMatches =
+            readback[index] === modulationMode &&
+            config.modulationSettings === 0x27;
+
+        if (!configurationMatches || !modulationMatches)
+        {
+            commands.push({ path: index + 1, message });
+        }
     }
 
     for (const command of commands)
     {
-        if (dds.SetSweepConfig(
+        const result = dds.SetSweepConfig(
             command.path, command.message, null
-        )[0] !== OK)
+        );
+
+        if (result[0] !== OK)
         {
+            console.log(
+                `DDS path ${command.path} configuration failed: ${result[2]}`
+            );
             return false;
         }
     }
 
-    //return true; // Queued; the later 0xC0 readback confirms application.
+    // True means at least one 0x80 was queued, not yet confirmed by the DDS.
     return commands.length > 0;
 }
+
+
 
 module.exports = { TxState, TxNewStates, TxReturnStates, ApplyCurrentOpFillDdsWhileMuted, isTxFullyOff };

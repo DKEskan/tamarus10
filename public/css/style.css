@@ -922,6 +922,10 @@ input[type=password] {
   border-bottom: 3px solid #000 !important;
 }
 
+input.sweep-setting-digit.text-nonfocus {
+  border-bottom: 3px solid #fff !important;
+}
+
 .password-heading {
   font-size: 24px;
 }

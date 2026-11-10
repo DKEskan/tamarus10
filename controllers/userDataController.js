@@ -69,6 +69,23 @@ function createNewUserConfigMap(newPathId) //add new module to map. Count module
 }
 
 
+const ERROR_SWEEP_INJECTED_TOO_NARROW = 130;
+const narrowSweepAlerts = new Map();
+
+function latchNarrowSweepAlert(ddsNumber) {
+    if (narrowSweepAlerts.has(ddsNumber)) return;
+
+    narrowSweepAlerts.set(ddsNumber, {
+        code: ERROR_SWEEP_INJECTED_TOO_NARROW,
+        text: `Path ${ddsNumber} Modulation is not applied as it has a narrow sweep`
+    });
+}
+
+function acknowledgeNarrowSweepAlert() {
+    const first = narrowSweepAlerts.keys().next().value;
+    if (first !== undefined) narrowSweepAlerts.delete(first);
+} 
+
 // function getUserConfig()
 // {
 //     const jsonConfig = data.userConfig;
@@ -97,7 +114,8 @@ function getUserConfig()
 		ActiveAlarms: jsonConfig.UnitOverallAlarm ?
 		moduleDataController.getActiveAlarmList()
 		: [],
-		DdsModulationReadback: moduleDataController.getDdsModulationReadback()
+		SweepNarrowAlert: narrowSweepAlerts.values().next().value ?? null,
+		DdsModulationReadback: moduleDataController.getDdsModulationReadback(),
 	};
 }
 
@@ -700,5 +718,5 @@ module.exports = {
 	updateUnitOverallAlarm, getUnitOverallAlarm, getCurrentOpfill, getBatteryCharging,
 	updateUnitOverallAlarmType, getCovertMode, getBuzzLedMode, getTxButtonOnState, getPowerSource,
 	getPaHighestTemp, updateUnitOverallWarning, updateUnitOverallWarningType, saveToMemDataJson, 
-	getUserIsTransmitting, getSavingStatus
+	getUserIsTransmitting, getSavingStatus, latchNarrowSweepAlert, acknowledgeNarrowSweepAlert
 }

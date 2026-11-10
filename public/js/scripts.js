@@ -7,6 +7,9 @@ const socket = new WebSocket('ws://127.0.0.1:8080');
 const progress = document.querySelector('.progress-done');
 let reloadWebpageFlag = 0;  //flag to reload browser page if comms crash
 
+let narrowSweepAlertVisible = false;
+let narrowSweepAckPending = false;
+
 //DECLARATION
 // COMMAND NAME BEGIN
 const getVerb = 'GET';
@@ -68,13 +71,12 @@ socket.addEventListener('message', function(event) {
     //document.getElementById("responseData").innerHTML = "Button Pressed: " + event.data;     
   })
 
-
   let globalModulationEnabled = false;
   let modulationEnabledByPath = Array(7).fill(false);
 
   function showModulationButton() {
       const button = document.getElementById("c_btn_10");
-      button.textContent = globalModulationEnabled ? "☑ Modn" : "☐ Modn";
+      button.textContent = globalModulationEnabled ? "☑ Mod" : "☐ Mod";
       button.setAttribute("aria-checked", String(globalModulationEnabled));
   }
 
@@ -502,6 +504,7 @@ let passwordNavConfirmPos = 0;
 
 let configJsonArr = []; //location to store received JSON config 
 let radioFrequencyId = 255; //track band frequency input tables for clearing if new table. 0 == band 1, 1 == band 2 etc
+let sweepSettingEditRow = 0; // 0: navigation, 8: step digits, 9: ramp digits
 let radioFreqObj =  //array with index for each band, inside each is an object of the subbands set in the frequency table
 [
   {
@@ -838,7 +841,36 @@ function frequencyScreenMenuNavBar(navKey)
 		console.log(err);
 	}
 }
-function frequencyNavigation(arrowKey){
+
+// function frequencyNavigation(arrowKey){
+//   try{
+//     if(document.getElementById("m_s_error").style.display !== 'none')
+//     {
+//       return; //block navigation when alarm present
+//     }
+//     let rowPos = parseInt($(hdn_frequency_row_pos).val());
+//     let colPos = parseInt($(hdn_frequency_col_pos).val());
+    
+//     let prevRowPos = rowPos;
+//     let prevColPos = colPos;
+
+//     if(enterInputFrequencyScreenFlag == 1)  //changing values of frequencies
+//     {
+//       navigateValueInputsFrequencyScreen(arrowKey, rowPos, colPos);
+//     }
+//     else  //moving upper level of frequency screen
+//     {
+//       navigateTablesFrequencyScreen(arrowKey, rowPos, colPos, prevRowPos, prevColPos);
+      
+//     }
+//   }catch(err)
+// 	{
+// 		console.log(err);
+// 	}
+// }
+
+function frequencyNavigation(arrowKey)
+{
   try{
     if(document.getElementById("m_s_error").style.display !== 'none')
     {
@@ -850,20 +882,23 @@ function frequencyNavigation(arrowKey){
     let prevRowPos = rowPos;
     let prevColPos = colPos;
 
-    if(enterInputFrequencyScreenFlag == 1)  //changing values of frequencies
-    {
+    if (sweepSettingEditRow !== 0) {
+      navigateSweepSettingDigits(arrowKey);
+    } else if (enterInputFrequencyScreenFlag === 1) {
       navigateValueInputsFrequencyScreen(arrowKey, rowPos, colPos);
+    } else {
+      navigateTablesFrequencyScreen(
+        arrowKey, rowPos, colPos, prevRowPos, prevColPos
+      );
     }
-    else  //moving upper level of frequency screen
-    {
-      navigateTablesFrequencyScreen(arrowKey, rowPos, colPos, prevRowPos, prevColPos);
-      
-    }
-  }catch(err)
-	{
-		console.log(err);
-	}
+
+  }
+  catch(err)
+  {
+    console.log(err);
+  }
 }
+
 
 function navigateValueInputsFrequencyScreen(arrowKey, rowPos, colPos)
 {
@@ -915,7 +950,8 @@ function navigateTablesFrequencyScreen(arrowKey, rowPos, colPos, prevRowPos, pre
         ROW_POS_ADD_ROW: 7,	
         MAX_ADD_ROW_COLS: 1,	
 
-        ROW_POS_APPLY_CANCEL: 8,	
+        //ROW_POS_APPLY_CANCEL: 8,	
+        ROW_POS_APPLY_CANCEL: 10,
         MAX_APPLY_CANCEL_COLS: 2
     }
     
@@ -971,6 +1007,46 @@ function navigateTablesFrequencyScreen(arrowKey, rowPos, colPos, prevRowPos, pre
           break;
       }
     }
+
+    // else if (rowPos === 8 || rowPos === 9) {  //frequency step & rampRate row
+    //   if (arrowKey === navUpArrow) {
+    //     rowPos = rowPos === 9
+    //       ? 8
+    //       : (emptySubbandsFrequencyNav === 0 ? 6 : 7);
+    //   } else if (arrowKey === navDownArrow) {
+    //     rowPos++;
+    //   }
+
+    //   colPos = 1;
+    //   $(hdn_frequency_row_pos).val(rowPos);
+    //   $(hdn_frequency_col_pos).val(colPos);
+    // }
+
+    else if (rowPos === 8 || rowPos === 9) {
+      switch (arrowKey) {
+        case navRightArrow:
+          if (rowPos === 8) rowPos = 9; // Step → Ramp
+          break;
+
+        case navLeftArrow:
+          if (rowPos === 9) rowPos = 8; // Ramp → Step
+          break;
+
+        case navDownArrow:
+          colPos = rowPos === 8 ? 1 : 2; // Step → Apply, Ramp → Cancel
+          rowPos = 10;
+          break;
+
+        case navUpArrow:
+          rowPos = emptySubbandsFrequencyNav === 0 ? 6 : 7;
+          colPos = 1;
+          break;
+      }
+
+      $(hdn_frequency_row_pos).val(rowPos);
+      $(hdn_frequency_col_pos).val(colPos);
+    }
+
     else if(rowPos === (NavVals.ROW_POS_APPLY_CANCEL)) //navigate add row button
     {
       switch(arrowKey)
@@ -986,14 +1062,19 @@ function navigateTablesFrequencyScreen(arrowKey, rowPos, colPos, prevRowPos, pre
         case navDownArrow:  //limit down
           break;
         case navUpArrow:
-          rowPos--; 
-          if(emptySubbandsFrequencyNav === 0)
-          {
-            rowPos--; //full subbands skip add row
-          }
-          $(hdn_frequency_row_pos).val(rowPos);
+          // rowPos--; 
+          // if(emptySubbandsFrequencyNav === 0)
+          // {
+          //   rowPos--; //full subbands skip add row
+          // }
+          // $(hdn_frequency_row_pos).val(rowPos);
 
-          colPos = 1; //about to change to 1 column row, reset column position to 1
+          // colPos = 1; //about to change to 1 column row, reset column position to 1
+          // $(hdn_frequency_col_pos).val(colPos);
+         // rowPos = 9; // Move from Apply/Cancel to Ramp rate.
+          rowPos = colPos === 1 ? 8 : 9; 
+          colPos = 1;
+          $(hdn_frequency_row_pos).val(rowPos);
           $(hdn_frequency_col_pos).val(colPos);
           break;
       }
@@ -1028,6 +1109,80 @@ function navigateTablesFrequencyScreen(arrowKey, rowPos, colPos, prevRowPos, pre
   }
 }
 
+function sweepSettingPrefix(row) {
+  return row === 8 ? "m_t_frequency_step" : "m_t_frequency_ramp";
+}
+
+function setSweepSettingDigits(row, value) {
+  const digits = String(value).padStart(5, "0");
+  const prefix = sweepSettingPrefix(row);
+
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById(`${prefix}_${i}`).value = digits[i - 1];
+  }
+}
+
+function getSweepSettingDigits(row) {
+  const prefix = sweepSettingPrefix(row);
+  let digits = "";
+
+  for (let i = 1; i <= 5; i++) {
+    digits += document.getElementById(`${prefix}_${i}`).value;
+  }
+
+  return Number(digits);
+}
+
+function highlightSweepSettingDigit(row, position) {
+  for (const settingRow of [8, 9]) {
+    const prefix = sweepSettingPrefix(settingRow);
+
+    for (let i = 1; i <= 5; i++) {
+      const digit = document.getElementById(`${prefix}_${i}`);
+      digit.classList.remove(textfocus);
+      digit.classList.add(textnonfocus);
+    }
+  }
+
+  if (row === 8 || row === 9) {
+    const digit = document.getElementById(
+      `${sweepSettingPrefix(row)}_${position}`
+    );
+    digit.classList.remove(textnonfocus);
+    digit.classList.add(textfocus);
+  }
+}
+
+function navigateSweepSettingDigits(arrowKey) {
+  const row = sweepSettingEditRow;
+  let position = Number($(hdn_frequency_pos).val());
+
+  if (arrowKey === navLeftArrow) {
+    position = Math.max(1, position - 1);
+  } else if (arrowKey === navRightArrow) {
+    position = Math.min(5, position + 1);
+  } else if (arrowKey === navUpArrow || arrowKey === navDownArrow) {
+    const digits = String(getSweepSettingDigits(row))
+      .padStart(5, "0")
+      .split("");
+
+    const change = arrowKey === navUpArrow ? 1 : -1;
+    const oldDigit = Number(digits[position - 1]);
+    digits[position - 1] = String((oldDigit + change + 10) % 10);
+
+    const candidate = Number(digits.join(""));
+    const maximum = row === 8 ? 4000 : 65535;
+
+    if (candidate >= 1 && candidate <= maximum) {
+      setSweepSettingDigits(row, candidate);
+    }
+  }
+
+  $(hdn_frequency_pos).val(position);
+  highlightSweepSettingDigit(row, position);
+}
+
+
 function frequencyNavArrowKeyEnter()
 {
   try{    
@@ -1053,15 +1208,47 @@ function frequencyNavArrowKeyEnter()
       case 7:
         unhideRowFrequencyScreen();
         return;   
+      // case 8:
+      //   if(colPos === 1)
+      //   {
+      //     setRadioFrequencySweep(radioFrequencyId);  
+      //     hideFrequencyScreen();
+      //     setConfigMenuParameterChangeCss(1);
+      //   }
+      //   else if(colPos === 2)
+      //   {
+      //     hideFrequencyScreen();
+      //   }
+      //   return;
       case 8:
-        if(colPos === 1)
-        {
-          setRadioFrequencySweep(radioFrequencyId);  
+      case 9:
+        if (sweepSettingEditRow === 0) {
+          sweepSettingEditRow = rowPos;
+          $(hdn_frequency_pos).val(1);
+          highlightSweepSettingDigit(rowPos, 1);
+        } else {
+          sweepSettingEditRow = 0;
+          highlightSweepSettingDigit(0, 0);
+        }
+        return;
+
+      case 10:
+        if (colPos === 1) { // Apply
+          const stepKHz = getSweepSettingDigits(8);
+          const rampRate = getSweepSettingDigits(9);
+
+          if (stepKHz < 1 || stepKHz > 4000 ||
+              rampRate < 1 || rampRate > 65535) {
+            return; // Keep the popup open for correction.
+          }
+
+          radioFreqObj[radioFrequencyId].FrequencyStep = stepKHz * 1000;
+          radioFreqObj[radioFrequencyId].RampRate = rampRate;
+
+          setRadioFrequencySweep(radioFrequencyId);
           hideFrequencyScreen();
           setConfigMenuParameterChangeCss(1);
-        }
-        else if(colPos === 2)
-        {
+        } else if(colPos === 2) { // Cancel
           hideFrequencyScreen();
         }
         return;
@@ -1497,17 +1684,33 @@ function frequencyElementHighlight(row, column, prevRow, prevCol){
           break;
       }
     }
-    else if(row == 8) //1x2 grid for apply / cancel
-    {
-      switch(column)
-      {
-        case 1 :
-        case 2 :
-          //highlight outside of box
-          element.classList.add(btnfocus); 
-          break;
-      }
+    // else if(row == 8) //1x2 grid for apply / cancel
+    // {
+    //   switch(column)
+    //   {
+    //     case 1 :
+    //     case 2 :
+    //       //highlight outside of box
+    //       element.classList.add(btnfocus); 
+    //       break;
+    //   }
+    // }
+
+    else if (row === 8 || row === 9) {
+      element.classList.remove(borderwhite);
+      element.classList.add(borderyellow);
     }
+    else if (row === 10) {
+        switch(column)
+        {
+          case 1 :
+          case 2 :
+            //highlight outside of box
+            element.classList.add(btnfocus); 
+            break;
+        }
+    }
+
   }catch(err)
 	{
 		console.log(err);
@@ -1629,6 +1832,8 @@ function hideRowFrequencyScreen()
 function hideFrequencyScreen()
 {
   try{
+    sweepSettingEditRow = 0;
+    highlightSweepSettingDigit(0, 0);
     document.getElementById("configScreen").style.filter = "blur(0px)"; // remove blur
     $(m_s_frequency).hide();
     $(hdn_frequency_menu).val(0);
@@ -1681,6 +1886,13 @@ function fillFrequencyScreenValue(pos){
       document.getElementById('m_t_frequency_table').classList.remove("mb-0");
       document.getElementById('m_t_frequency_table').classList.add("mb-2");
     }
+
+    setSweepSettingDigits(
+      8,
+      Math.round((radioFreqObj[pos].FrequencyStep ?? 10000) / 1000)
+    );
+    setSweepSettingDigits(9, radioFreqObj[pos].RampRate ?? 20);
+
   }catch(err)
 	{
 		console.log(err);
@@ -2336,7 +2548,7 @@ function configNavSetTitleLabel(button)
       document.getElementById('responseData').innerHTML = 'Change Password'; 
       break;
     case 10:
-      document.getElementById('responseData').innerHTML = 'Toggle MODN on all paths';
+      document.getElementById('responseData').innerHTML = 'Toggle Mod on all paths';
       break;
     case 11: 
     case 25: 
@@ -3072,6 +3284,8 @@ function BuildRadioFrequencyPathObject(pos, rfobj){
       //console.log(rfobj);
    // }
     radioFrequencyPathObj.FrequencyRange = rfobj;//BuildRadioFrequencyRanges(frequencyRangeID,rfobj);
+    radioFrequencyPathObj.FrequencyStep = radioFreqObj[pos].FrequencyStep ?? 10000;
+    radioFrequencyPathObj.RampRate = radioFreqObj[pos].RampRate ?? 20;
     return radioFrequencyPathObj;
   }catch(err)
   {
@@ -3877,11 +4091,12 @@ function handleAlarmNavigation(key)
 
 function DisplayAlarm(data){
   try{
+    narrowSweepAlertVisible = false;
     if(data != null)
     {
       const chargingOnly = data.IsUnitOn === false && data.PowerSource === "EXT24V";
       
-      if(data?.IsConvertModeOn === true || chargingOnly){
+      if((data?.IsConvertModeOn === true || chargingOnly) && !data.SweepNarrowAlert){
         $(m_s_error).hide();
 
         document.getElementById("mainScreen").style.filter = "blur(0px)";
@@ -3921,6 +4136,24 @@ function DisplayAlarm(data){
           document.getElementById("configScreen").style.filter = "blur(7px)";
           document.getElementById("batteryScreen").style.filter = "blur(7px)";
           document.getElementById("spinnerId").style.display = 'none';  
+        }
+        else if (data.SweepNarrowAlert?.code === 130)
+        {
+            narrowSweepAlertVisible = true;
+            hidePopups();
+            $(m_s_error).show();
+
+            $(s_s_error_type_text).text("ALARM 130");
+            $(s_s_error).text(data.SweepNarrowAlert.text);
+
+            $(m_s_error).removeClass(warningmessage);
+            $(m_s_error_type).removeClass(warningmessagealarm);
+            $(m_s_error_type).addClass(errormessagealarm);
+
+            document.getElementById("mainScreen").style.filter = "blur(7px)";
+            document.getElementById("configScreen").style.filter = "blur(7px)";
+            document.getElementById("batteryScreen").style.filter = "blur(7px)";
+            document.getElementById("spinnerId").style.display = "none";
         }
         else if((data.UnitOverallWarning) && (WarningAlertBlockTimer === 0))
         {
@@ -4201,6 +4434,8 @@ function SetOpFillData(data)
     for (let i = 0; i < data.RadioFrequencyPath.length; i++) {
       setFrequencyBand(data.RadioFrequencyPath[i].FrequencyRange, data.RadioFrequencyPath[i].Id);
       radioFreqObj[i].subbands = data.RadioFrequencyPath[i].FrequencyRange;
+      radioFreqObj[i].FrequencyStep = data.RadioFrequencyPath[i].FrequencyStep ?? 10000;
+      radioFreqObj[i].RampRate = data.RadioFrequencyPath[i].RampRate ?? 20;
     }
     globalModulationEnabled = data.ModulationEnabled === true;
     modulationEnabledByPath = data.RadioFrequencyPath.map(path => path.ModulationEnabled === true);
@@ -4406,8 +4641,8 @@ function setConfigRadioFrequencyTitle() {
       //   "MODN unknown";
 
       const modLabel = 
-        mode === 2 ? "(Modn)" : 
-        mode === 0 ? "" : "(Modn ?)";
+        mode === 2 ? "(Mod)" : 
+        mode === 0 ? "" : "(Mod ?)";
 
       document.querySelector(m_span_title + path.Id).innerText =
         `${minFrequencies[radioFrequencyKey]} - ` +
@@ -4555,7 +4790,22 @@ function pixelCheckScreen()
 
 function getCurrentScreenNavBar(navKey){
   try{
-    if(navKey === "P")
+    if (navKey === "5" && narrowSweepAlertVisible &&
+    document.getElementById("m_s_error").style.display !== "none" &&
+    document.getElementById("m_s_confirm").style.display === "none")
+    {
+      if (!narrowSweepAckPending) {
+          narrowSweepAckPending = true;
+          sendMessage({
+              type: "PUT",
+              command: "user/ackNarrowSweepAlert",
+              body: {}
+          });
+      }
+    return;
+    }
+    
+    else if(navKey === "P")
     {
       pixelCheckScreenState = 0;
       document.getElementById("pixelCheckId").style.display = 'block';
@@ -4711,9 +4961,14 @@ function receivedSocketMessage(message){
       // case 5:
       //   console.log(message);    
       // break;                
-      case 6:
-        console.log(message);    
-      break;
+    case "ackNarrowSweepAlert":
+        narrowSweepAckPending = false;
+        if (message.code === 200) {
+            getConfig(); // Fetch the next latched alert, or clear the popup.
+        } else {
+            console.log("Could not acknowledge narrow-sweep alert", message);
+        }
+        break;
       case 7:
         console.log(message);    
       break;

@@ -646,7 +646,7 @@
 				<div class="col-3 px-1">
 					<button id="c_btn_10" type="button" class="btn btn-secondary btn-lg w-100"
 							role="checkbox" aria-checked="false"
-							onclick="configButtonClickEvent('10')">☐ Modn</button>
+							onclick="configButtonClickEvent('10')">☐ Mod</button>
 				</div>
 				<div class="col-3 px-1">
 					<button id="c_btn_11" class="btn btn-secondary btn-lg w-100">Back</button>
@@ -996,14 +996,72 @@
 								</tr>
 							</tbody>
 						</table>
+						<!--Edits for RampRate and FreqStep-->
+						<!-- <div class="px-3 pb-2">
+						<div id="m_t_frequency_nav_8_1"
+							class="d-flex justify-content-between align-items-center mb-2 border-white">
+							<span> Frequency step (kHz)</span>
+							<div>
+							<input id="m_t_frequency_step_1" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+							<input id="m_t_frequency_step_2" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+							<input id="m_t_frequency_step_3" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+							<input id="m_t_frequency_step_4" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="1" readonly />
+							<input id="m_t_frequency_step_5" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0 " readonly />
+							</div>
+						</div>
+
+						<div id="m_t_frequency_nav_9_1"
+							class="d-flex justify-content-between align-items-center border-white">
+							<span> Ramp rate (DDS counts)</span>
+							<div>
+							<input id="m_t_frequency_ramp_1" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+							<input id="m_t_frequency_ramp_2" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+							<input id="m_t_frequency_ramp_3" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+							<input id="m_t_frequency_ramp_4" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="2" readonly />
+							<input id="m_t_frequency_ramp_5" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0 " readonly />
+							</div>
+						</div>
+						</div> -->
+						<!--Edits Finished-->
+
+						<div class="px-3 pb-2 d-flex justify-content-between">
+							<div id="m_t_frequency_nav_8_1"
+								class="d-flex flex-column align-items-center border-white"
+								style="width:48%">
+								<span>Frequency step (kHz)</span>
+								<div class="d-flex flex-nowrap justify-content-center gap-1">
+								<!-- Keep the existing five step inputs here -->
+								<input id="m_t_frequency_step_1" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+								<input id="m_t_frequency_step_2" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+								<input id="m_t_frequency_step_3" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+								<input id="m_t_frequency_step_4" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="1" readonly />
+								<input id="m_t_frequency_step_5" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+								</div>	
+							</div>
+
+							<div id="m_t_frequency_nav_9_1"
+								class="d-flex flex-column align-items-center border-white"
+								style="width:48%">
+								<span>Ramp rate (DDS counts)</span>
+								<div class="d-flex flex-nowrap justify-content-center gap-1">
+								<!-- Keep the existing five ramp inputs here -->
+								<input id="m_t_frequency_ramp_1" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+								<input id="m_t_frequency_ramp_2" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+								<input id="m_t_frequency_ramp_3" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+								<input id="m_t_frequency_ramp_4" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="2" readonly />
+								<input id="m_t_frequency_ramp_5" class="sweep-setting-digit text-nonfocus" type="number" min="0" max="9" value="0" readonly />
+								</div>	
+							</div>
+						</div>
+
 					</div>
 					<div class="container text-center my-2">
 						<div class="row no-gutters justify-content-md-center" style="height: 100%;">
 							<div class="col col-lg-4 text-nowrap">
-								<button id="m_t_frequency_nav_8_1"  type="button" class="btn btn-secondary btn-lg" style="width:100%">Apply</button>
+								<button id="m_t_frequency_nav_10_1"  type="button" class="btn btn-secondary btn-lg" style="width:100%">Apply</button>
 							</div>
 							<div class="col col-lg-4 text-nowrap">
-								<button id="m_t_frequency_nav_8_2" type="button" class="btn btn-secondary btn-lg" style="width:100%">Cancel</button>
+								<button id="m_t_frequency_nav_10_2" type="button" class="btn btn-secondary btn-lg" style="width:100%">Cancel</button>
 							</div>
 						</div>
 					</div>

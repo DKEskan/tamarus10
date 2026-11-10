@@ -1004,6 +1004,7 @@ function EskanToJson(data, setMsg)  //for responses from messages being polled
 					moduleDataController.updateModuleConfig(buildInfoObj);
     				moduleDataController.updateModuleConfig(configObj);
 
+					moduleDataController.setDdsSweepReadback(unitId, configObj.config);
 					moduleDataController.setDdsModulationReadback(unitId, modulationMode);
 					require('../uiWebSocket').sendButtonUpdate('U');
 
@@ -1115,6 +1116,7 @@ function EskanToJson(data, setMsg)  //for responses from messages being polled
 
 				if(AckNAckData === 0x41)
 				{
+					moduleDataController.markDdsSweepConfigAcked(unitId);
 					eskanProtocol.packAndQueue([unitId, CommandId.getConfig] , 0);
 				}
 

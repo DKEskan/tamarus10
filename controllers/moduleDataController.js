@@ -71,6 +71,8 @@ function initMap() //add new module to map
     };
 	data.moduleMap.modules = [];
     ddsModulationReadback.fill(null);
+    ddsSweepReadback.fill(null);
+    ddsSweepAcked.fill(false);
 }
 
 function createNewModuleMap(newModuleAddr, moduleType) //add new module to map. Count modules included
@@ -177,6 +179,37 @@ function setDdsModulationReadback(unitId, mode) {
 
 function getDdsModulationReadback() {
     return [...ddsModulationReadback];
+}
+
+const ddsSweepReadback = Array(7).fill(null);
+const ddsSweepAcked = Array(7).fill(false);
+
+function invalidateDdsSweepReadback(unitId) {
+    const index = unitId - 0x20;
+    if (index < 0 || index >= 7) return;
+
+    ddsSweepReadback[index] = null;
+    ddsSweepAcked[index] = false;
+}
+
+function markDdsSweepConfigAcked(unitId) {
+    const index = unitId - 0x20;
+    if (index >= 0 && index < 7) ddsSweepAcked[index] = true;
+}
+
+function setDdsSweepReadback(unitId, config) {
+    const index = unitId - 0x20;
+    if (index < 0 || index >= 7 || !ddsSweepAcked[index]) return;
+
+    ddsSweepReadback[index] = {
+        SweepFreqStep: config.SweepFreqStep,
+        RampRate: config.RampRate
+    };
+    ddsSweepAcked[index] = false;
+}
+
+function getDdsSweepReadback(unitId) {
+    return ddsSweepReadback[unitId - 0x20] ?? null;
 }
 
 
@@ -419,6 +452,17 @@ function TxDdsOnStateCheck(currentOpFill)
         }
         else if(expectedPath.Mode === "Sweep")
         {
+            // frequenciesMatch =
+            //     config.Operating_Mode === 1 &&
+            //     expectedRanges.length <= 6 &&
+            //     config.No_of_Active_Sweeps === expectedRanges.length &&
+            //     expectedRanges.every((range, i) =>
+            //         config[`Sweep${i + 1}StartFreq`] === range.Lower &&
+            //         config[`Sweep${i + 1}StopFreq`] === range.Upper
+            //     );
+
+            const readback = getDdsSweepReadback(Number(module.address));
+
             frequenciesMatch =
                 config.Operating_Mode === 1 &&
                 expectedRanges.length <= 6 &&
@@ -426,7 +470,10 @@ function TxDdsOnStateCheck(currentOpFill)
                 expectedRanges.every((range, i) =>
                     config[`Sweep${i + 1}StartFreq`] === range.Lower &&
                     config[`Sweep${i + 1}StopFreq`] === range.Upper
-                );
+                ) &&
+                readback !== null &&
+                readback.SweepFreqStep === expectedPath.FrequencyStep &&
+                readback.RampRate === expectedPath.RampRate;
         }
 
         if(!frequenciesMatch)
@@ -1432,4 +1479,4 @@ module.exports = { initMap, createNewModuleMap, getModuleMap, saveModuleMap, get
                     updateCarrierStatus, clearCarrierAlarms, UpdateUartCommsAlarm, updateOverallAlarm, getDdsCount, 
                     getPaCount, getAlarmedModules, getPaTargetTemp, getProtFanState, clearAlarms,
                     TxPaOnStateCheck, TxPaOffStateCheck, TxDdsOnStateCheck, TxDdsOffStateCheck, getActiveAlarmList, getPaTempHyst, getPowerPcbWarning, setDdsModulationReadback, getDdsModulationReadback,
-                    alarmsCode, warningsCode, statusCode, ResetOptions }
+                    invalidateDdsSweepReadback, markDdsSweepConfigAcked, setDdsSweepReadback, getDdsSweepReadback, alarmsCode, warningsCode, statusCode, ResetOptions }
