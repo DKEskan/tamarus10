@@ -25,10 +25,10 @@ const ERROR = null;
 
 function initMap() //add new module to map
 {   
-	data.userConfig.Barcode = "ABCD0123AB";
-	data.userConfig.Version = 6;
-	data.userConfig.SerialNumber = "ESK1234567";
-	data.userConfig.Firmware = "0.0.1";
+	data.userConfig.Barcode = "JM-A-H-TAS10-X01-XX1-AA";
+	data.userConfig.Version = 3;
+	data.userConfig.SerialNumber = "ESK0006656";
+	data.userConfig.Firmware = "1.1.14";
 	data.userConfig.IPAddress = "192.168.2.220";
 	data.userConfig.Subnet = "24";
 	data.userConfig.Gateway = "192.168.2.1";
@@ -44,6 +44,7 @@ function initMap() //add new module to map
 	data.userConfig.IsTxButtonOn = false;
 	data.userConfig.PowerSource = "BAT";
 	data.userConfig.RadioFrequencyPath = [];
+	importedDdsAtStartup.clear();
 }
 
 function createNewUserConfigMap(newPathId) //add new module to map. Count modules included
@@ -352,6 +353,50 @@ function getCurrentOpfill()
 	return response;
 }
 
+const importedDdsAtStartup = new Set();
+
+function importDdsStepRampAtStartup(unitId, config) {
+    const pathIndex = unitId - 0x20;
+    if (pathIndex < 0 || pathIndex >= 7 ||
+        importedDdsAtStartup.has(unitId)) {
+        return false;
+    }
+
+    const step = config?.SweepFreqStep; // Hz
+    const ramp = config?.RampRate;
+
+    // The LCD edits and displays whole kHz steps.
+    if (!Number.isInteger(step) || step < 1000 ||
+        step > 4000000 || step % 1000 !== 0 ||
+        !Number.isInteger(ramp) || ramp < 1 || ramp > 65535) {
+        return false;
+    }
+
+    const opFill = data.opFill?.OpFill?.[data.opFill.CurrentOpFill - 1];
+    const band = opFill?.RadioFrequencyPath?.[pathIndex];
+    if (!band) return false;
+
+    if (band.FrequencyStep === step && band.RampRate === ramp) {
+        importedDdsAtStartup.add(unitId);
+        return false;
+    }
+
+    const oldStep = band.FrequencyStep;
+    const oldRamp = band.RampRate;
+    band.FrequencyStep = step;
+    band.RampRate = ramp;
+
+    if (saveToOpFillJson() !== OK) {
+        band.FrequencyStep = oldStep;
+        band.RampRate = oldRamp;
+        return false;
+    }
+
+    importedDdsAtStartup.add(unitId);
+    return true;
+}
+
+
 function saveOpfill(op, body)
 {
 	const opFillConfig = data.opFill;
@@ -426,7 +471,9 @@ function saveToOpFillJson()
 				console.log('Op Fill Config successfully saved to disk');
 				
 			}catch(error) {
+					savingOpFillFlag = 0;
 					console.log('An error has occurred ', error);
+					return ERROR;
 			}
 			
 			return OK;
@@ -718,5 +765,5 @@ module.exports = {
 	updateUnitOverallAlarm, getUnitOverallAlarm, getCurrentOpfill, getBatteryCharging,
 	updateUnitOverallAlarmType, getCovertMode, getBuzzLedMode, getTxButtonOnState, getPowerSource,
 	getPaHighestTemp, updateUnitOverallWarning, updateUnitOverallWarningType, saveToMemDataJson, 
-	getUserIsTransmitting, getSavingStatus, latchNarrowSweepAlert, acknowledgeNarrowSweepAlert
+	getUserIsTransmitting, getSavingStatus, latchNarrowSweepAlert, acknowledgeNarrowSweepAlert, importDdsStepRampAtStartup
 }

@@ -9,7 +9,7 @@ let reloadWebpageFlag = 0;  //flag to reload browser page if comms crash
 
 let narrowSweepAlertVisible = false;
 let narrowSweepAckPending = false;
-
+let passwordResultPending = false;
 //DECLARATION
 // COMMAND NAME BEGIN
 const getVerb = 'GET';
@@ -498,6 +498,7 @@ const maxFrequencies = [];
 const bandSpanWidth = [];
 
 let WarningAlertBlockTimer = 0;
+let lowBatteryWarningAcknowledged = false;
 
 let passwordNavConfirm = 0; //toggle between new password input and confirm
 let passwordNavConfirmPos = 0;
@@ -1182,6 +1183,23 @@ function navigateSweepSettingDigits(arrowKey) {
   highlightSweepSettingDigit(row, position);
 }
 
+function findShortSweepInput() {
+  for (let row = 1; row <= 6; row++) {
+    if (document.getElementById(`m_t_frequency_row_${row}`).style.display === "none")
+      continue;
+
+    const lower = getRadioFrequency(row, 1); // kHz
+    const upper = getRadioFrequency(row, 2); // kHz
+
+    if (lower === 0 && upper === 0) continue; // empty row
+
+    if (!Number.isInteger(lower) || !Number.isInteger(upper) ||
+        lower <= 0 || upper <= 0 || upper - lower < 1000) {
+      return { row, lower, upper };
+    }
+  }
+  return null;
+}
 
 function frequencyNavArrowKeyEnter()
 {
@@ -1234,6 +1252,13 @@ function frequencyNavArrowKeyEnter()
 
       case 10:
         if (colPos === 1) { // Apply
+          const shortSweep = findShortSweepInput();
+          if(shortSweep){
+              document.getElementById("s_s_short_sweep").textContent = `Path ${radioFrequencyId + 1} Sweep ${shortSweep.row}: Sweep Span less than 1 MHz is not allowed.`;
+              document.getElementById("m_s_short_sweep").style.display = "flex";
+              return;
+          }
+          
           const stepKHz = getSweepSettingDigits(8);
           const rampRate = getSweepSettingDigits(9);
 
@@ -2073,18 +2098,32 @@ function passwordNavArrowKeyEnter()
     //normal password screen
     else if($(hdn_currentScreen).val() == mainScreenVal)
     {
-      let isValidPassword = checkPassword();
+      // let isValidPassword = checkPassword();
       
-      if(isValidPassword)
-      {
-        handlePasswordBoxFormat("passwordAccept");
-        setTimeout(passwordBoxReset, 1000, "passwordAccept");
-      }
-      else
-      {
-        handlePasswordBoxFormat("passwordFail");
-        setTimeout(passwordBoxReset, 1000, "passwordFail");
-      }
+      // if(isValidPassword)
+      // {
+      //   handlePasswordBoxFormat("passwordAccept");
+      //   setTimeout(passwordBoxReset, 1000, "passwordAccept");
+      // }
+      // else
+      // {
+      //   handlePasswordBoxFormat("passwordFail");
+      //   setTimeout(passwordBoxReset, 1000, "passwordFail");
+      // }
+
+      if (passwordResultPending) return;
+
+      passwordResultPending = true;
+      const result = checkPassword() ? "passwordAccept" : "passwordFail";
+      handlePasswordBoxFormat(result);
+
+      setTimeout(() => {
+        try {
+          passwordBoxReset(result);
+        } finally {
+          passwordResultPending = false;
+        }
+      }, 1000);
     }
   }catch(err)
 	{
@@ -4092,8 +4131,11 @@ function handleAlarmNavigation(key)
 function DisplayAlarm(data){
   try{
     narrowSweepAlertVisible = false;
+    
     if(data != null)
     {
+      const lowBatteryWarningActive = data.UnitOverallWarning && data.UnitOverallWarningType === "Low Battery Warning!";
+
       const chargingOnly = data.IsUnitOn === false && data.PowerSource === "EXT24V";
       
       if((data?.IsConvertModeOn === true || chargingOnly) && !data.SweepNarrowAlert){
@@ -4155,7 +4197,7 @@ function DisplayAlarm(data){
             document.getElementById("batteryScreen").style.filter = "blur(7px)";
             document.getElementById("spinnerId").style.display = "none";
         }
-        else if((data.UnitOverallWarning) && (WarningAlertBlockTimer === 0))
+        else if((data.UnitOverallWarning) && (WarningAlertBlockTimer === 0) && !(lowBatteryWarningActive && lowBatteryWarningAcknowledged))
         {
           hidePopups();
           $(m_s_error).show();
@@ -4788,8 +4830,34 @@ function pixelCheckScreen()
   }
 }
 
+
+
 function getCurrentScreenNavBar(navKey){
   try{
+
+    const shortSweepPopup = document.getElementById("m_s_short_sweep");
+    if (shortSweepPopup.style.display !== "none") {
+      if (navKey === "5") shortSweepPopup.style.display = "none";
+      return; // Every other key leaves the popup visible.
+    }
+
+    const lowBatteryPopupVisible =
+      document.getElementById("m_s_error").style.display !== "none" &&
+      document.getElementById("m_s_confirm").style.display === "none" &&
+      document.getElementById("s_s_error_type_text").textContent.trim() === "WARNING" &&
+      document.getElementById("s_s_error").textContent.trim() === "Low Battery Warning!";
+
+    if (navKey === "5" && lowBatteryPopupVisible) {
+      lowBatteryWarningAcknowledged = true;
+      $(m_s_error).hide();
+
+      document.getElementById("mainScreen").style.filter = "blur(0px)";
+      document.getElementById("configScreen").style.filter = "blur(0px)";
+      document.getElementById("batteryScreen").style.filter = "blur(0px)";
+      document.getElementById("spinnerId").style.display = "block";
+      return;
+    }
+
     if (navKey === "5" && narrowSweepAlertVisible &&
     document.getElementById("m_s_error").style.display !== "none" &&
     document.getElementById("m_s_confirm").style.display === "none")

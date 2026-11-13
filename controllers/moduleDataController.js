@@ -1283,16 +1283,19 @@ function updateOverallAlarm(resetAlarms)
             {
                 buzzLedHandler.buzzLedStateOn("on");
             }
-            else if(warningActive === true)
-            {
-                if((WarningBlockFlag === 0))
-                {
-                    buzzLedHandler.buzzLedStateOn("pulse");
-                }
-            }
-            else if((alarmActive === false) && (warningActive === false))
-            {
-                buzzLedHandler.buzzLedStateOff();
+            // else if(warningActive === true)
+            // {
+            //     if((WarningBlockFlag === 0))
+            //     {
+            //         buzzLedHandler.buzzLedStateOn("pulse");
+            //     }
+            // }
+            // else if((alarmActive === false) && (warningActive === false))
+            // {
+            //     buzzLedHandler.buzzLedStateOff();
+            // }
+            else if(alarmActive === false){
+                 buzzLedHandler.buzzLedStateOff();
             }
         }          
     }catch(error){

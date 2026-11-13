@@ -1005,6 +1005,10 @@ function EskanToJson(data, setMsg)  //for responses from messages being polled
     				moduleDataController.updateModuleConfig(configObj);
 
 					moduleDataController.setDdsSweepReadback(unitId, configObj.config);
+
+					require('../../controllers/userDataController')
+					.importDdsStepRampAtStartup(unitId, configObj.config);
+
 					moduleDataController.setDdsModulationReadback(unitId, modulationMode);
 					require('../uiWebSocket').sendButtonUpdate('U');
 

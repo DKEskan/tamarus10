@@ -669,6 +669,10 @@ i:hover span {
   padding: 5px;
 }
 
+.short-sweep-message {
+  z-index: 152;
+}
+
 .error-message-alarm {
   border: red 10px solid !important; 
   width: 100%; 
@@ -733,20 +737,30 @@ i:hover span {
   background: #000;
   color: #fff;
   border: 1px solid #fff;
-  width: 300px;
+  width: 380px;
   height: 300px;
   position: absolute;
   /* transform: translate(100px, 30px); */
   text-align: center;
   vertical-align: middle;
   top: 210px;
-  left:150px;
+  left:110px;
   font-size: 25px;
   z-index: 100;
   /* top:30px; */
   /* not relative anymore */
   /* z-index:5; It's already stacked above if positioned. Needed if other positioned elements are there (a value of 1 would be enough) */
   /* replaces relative positioning (left and top => X and Y) */
+}
+
+#barcodeId {
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+
+.info-message {
+  height: auto;
+  min-height: 300px;
 }
 
 .covert-message {
